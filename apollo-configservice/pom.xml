@@ -12,6 +12,7 @@
 	<name>Apollo ConfigService</name>
 	<properties>
 		<github.path>${project.artifactId}</github.path>
+		<maven.resources.overwrite>false</maven.resources.overwrite>
 	</properties>
 	<dependencies>
 		<!-- apollo -->
@@ -116,4 +117,50 @@
 			</plugin>
 		</plugins>
 	</build>
+
+	<profiles>
+		<profile>
+			<id>k8s</id>
+			<properties>
+				<dockerfile-maven-plugin.skip>false</dockerfile-maven-plugin.skip>
+			</properties>
+			<build>
+				<resources>
+					<resource>
+						<directory>src/main/resources</directory>
+						<filtering>true</filtering>
+						<includes>
+							<include>**/*.yml</include>
+							<include>**/*.yaml</include>
+							<include>**/*.properties</include>
+							<include>**/*.xml</include>
+						</includes>
+					</resource>
+					<resource>
+						<directory>src/main/resources</directory>
+						<filtering>false</filtering>
+						<excludes>
+							<exclude>**/*.yml</exclude>
+							<exclude>**/*.yaml</exclude>
+							<exclude>**/*.properties</exclude>
+							<exclude>**/*.xml</exclude>
+						</excludes>
+					</resource>
+					<resource>
+						<directory>src/main/config</directory>
+						<excludes>
+							<exclude>*</exclude>
+						</excludes>
+					</resource>
+				</resources>
+				<plugins>
+					<plugin>
+						<groupId>org.springframework.boot</groupId>
+						<artifactId>spring-boot-maven-plugin</artifactId>
+						<configuration combine.self="override"/>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
 </project>

@@ -1,20 +1,19 @@
 spring:
   application:
     name: apollo-portal
-  profiles:
-    active: ${apollo_profile}
-
+  datasource:
+    url: jdbc:mysql://service-mysql-for-apollo.sre:3306/ApolloConfigDB?characterEncoding=utf8
+    username: root
+    password: root
 server:
-  port: 8080
+  port: 8070
   compression:
     enabled: true
   
 logging:
-  file: /opt/logs/100003173/apollo-portal.log
+  file: /opt/logs/apollo/apollo-portal.log
 
 management:
   health:
     status:
       order: DOWN, OUT_OF_SERVICE, UNKNOWN, UP 
-
-

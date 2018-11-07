@@ -91,6 +91,9 @@
 		<!-- for travis usage -->
 		<github.global.server>github</github.global.server>
 		<github.global.oauth2Token>${env.GITHUB_OAUTH_TOKEN}</github.global.oauth2Token>
+		<dockerfile-maven-plugin.version>1.4.0</dockerfile-maven-plugin.version>
+		<docker.image.prefix>qct222</docker.image.prefix>
+		<dockerfile-maven-plugin.skip>true</dockerfile-maven-plugin.skip>
 	</properties>
 
 	<modules>
@@ -434,7 +437,7 @@
 				<plugin>
 					<groupId>org.springframework.boot</groupId>
 					<artifactId>spring-boot-maven-plugin</artifactId>
-					<version>1.3.5.RELEASE</version>
+					<version>${spring-boot.version}</version>
 					<executions>
 						<execution>
 							<goals>
@@ -475,6 +478,11 @@
 					<groupId>org.codehaus.mojo</groupId>
 					<artifactId>versions-maven-plugin</artifactId>
 					<version>2.2</version>
+				</plugin>
+				<plugin>
+					<groupId>com.spotify</groupId>
+					<artifactId>dockerfile-maven-plugin</artifactId>
+					<version>${dockerfile-maven-plugin.version}</version>
 				</plugin>
 				<!-- Need to set releases.repo and snapshots.repo properties in your .m2/settings.xml -->
 			</plugins>
@@ -540,6 +548,19 @@
 					<dateFormat>yyyy-MM-dd'T'HH:mm:ssZ</dateFormat>
 					<generateGitPropertiesFile>true</generateGitPropertiesFile>
 					<failOnNoGitDirectory>false</failOnNoGitDirectory>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>com.spotify</groupId>
+				<artifactId>dockerfile-maven-plugin</artifactId>
+				<version>${dockerfile-maven-plugin.version}</version>
+				<configuration>
+					<skip>${dockerfile-maven-plugin.skip}</skip>
+					<repository>${docker.image.prefix}/${project.artifactId}</repository>
+					<tag>${project.version}</tag>
+					<buildArgs>
+						<JAR_FILE>target/${project.build.finalName}.jar</JAR_FILE>
+					</buildArgs>
 				</configuration>
 			</plugin>
 		</plugins>
