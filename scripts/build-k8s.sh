@@ -3,12 +3,12 @@
 cd $(dirname "${BASH_SOURCE}")/..
 
 #echo "==== starting to build admin-service ===="
-#mvn clean package dockerfile:build -DskipTests -Dassembly.skipAssembly=true -P k8s -pl apollo-adminservice -am
+#mvn clean package dockerfile:build -DskipTests -Dassembly.skipAssembly=true -Dmaven.gitcommitid.skip=true -Dapollo_profile=auth -P k8s -pl apollo-adminservice -am
 
 #echo "==== starting to build config-service ===="
-#mvn clean package dockerfile:build -DskipTests -Dassembly.skipAssembly=true -P k8s -pl apollo-configservice -am
+#mvn clean package dockerfile:build -DskipTests -Dassembly.skipAssembly=true -Dmaven.gitcommitid.skip=true -Dapollo_profile=auth -P k8s -pl apollo-configservice -am
 
 #echo "==== starting to build portal ===="
-#mvn clean package dockerfile:build -DskipTests -Dassembly.skipAssembly=true -P k8s -pl apollo-portal -am
+#mvn clean package dockerfile:build -DskipTests -Dassembly.skipAssembly=true -Dmaven.gitcommitid.skip=true -Dapollo_profile=auth -P k8s -pl apollo-portal -am
 
-mvn clean package dockerfile:build -DskipTests -Dassembly.skipAssembly=true -P k8s -pl '!apollo-assembly,!apollo-demo,!apollo-mockserver'
+mvn clean package dockerfile:build -DskipTests -Dassembly.skipAssembly=true -Dmaven.gitcommitid.skip=true -Dapollo_profile=auth -P k8s -pl '!apollo-assembly,!apollo-demo,!apollo-mockserver'

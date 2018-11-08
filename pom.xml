@@ -94,6 +94,7 @@
 		<dockerfile-maven-plugin.version>1.4.0</dockerfile-maven-plugin.version>
 		<docker.image.prefix>qct222</docker.image.prefix>
 		<dockerfile-maven-plugin.skip>true</dockerfile-maven-plugin.skip>
+		<maven.gitcommitid.skip>false</maven.gitcommitid.skip>
 	</properties>
 
 	<modules>
@@ -544,6 +545,7 @@
 					</execution>
 				</executions>
 				<configuration>
+					<skip>${maven.gitcommitid.skip}</skip>
 					<verbose>true</verbose>
 					<dateFormat>yyyy-MM-dd'T'HH:mm:ssZ</dateFormat>
 					<generateGitPropertiesFile>true</generateGitPropertiesFile>
