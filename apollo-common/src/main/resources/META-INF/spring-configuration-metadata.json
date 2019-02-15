@@ -1,0 +1,22 @@
+{
+  "hints": [],
+  "groups": [
+    {
+      "sourceType": "com.ctrip.framework.apollo.common.config.ApolloProperties",
+      "name": "apollo",
+      "type": "com.ctrip.framework.apollo.common.config.ApolloProperties"
+    }
+  ],
+  "properties": [
+    {
+      "sourceType": "com.ctrip.framework.apollo.common.config.ApolloProperties",
+      "name": "apollo.admin-service-url",
+      "type": "java.util.Map<java.lang.String,java.lang.String>"
+    },
+    {
+      "sourceType": "com.ctrip.framework.apollo.common.config.ApolloProperties",
+      "name": "apollo.config-service-url",
+      "type": "java.util.Map<java.lang.String,java.lang.String>"
+    }
+  ]
+}

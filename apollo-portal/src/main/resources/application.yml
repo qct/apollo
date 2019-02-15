@@ -15,11 +15,15 @@ server:
     enabled: true
   
 logging:
-  file: /opt/logs/100003173/apollo-portal.log
+  file: /opt/logs/apollo/apollo-portal.log
 
 management:
   health:
     status:
-      order: DOWN, OUT_OF_SERVICE, UNKNOWN, UP 
+      order: DOWN, OUT_OF_SERVICE, UNKNOWN, UP
 
-
+apollo:
+  config-service-url:
+    dev: http://localhost:8080
+  admin-service-url:
+    dev: http://localhost:8090

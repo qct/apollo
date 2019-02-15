@@ -2,6 +2,7 @@ package com.ctrip.framework.apollo.core.utils;
 
 import com.google.common.base.Strings;
 
+import com.sun.istack.internal.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -57,5 +58,48 @@ public class ClassLoaderUtil {
     } catch (ClassNotFoundException ex) {
       return false;
     }
+  }
+
+  public static boolean isClassPresent(String className, ClassLoader classLoader) {
+    ClassLoader loader = classLoader;
+    try {
+      if (loader == null) {
+        loader = getDefaultClassLoader();
+      }
+      Class.forName(className, false, loader);
+      return true;
+    }
+    catch (IllegalAccessError err) {
+      throw new IllegalStateException("Readability mismatch in inheritance hierarchy of class [" +
+          className + "]: " + err.getMessage(), err);
+    }
+    catch (Throwable ex) {
+      // Typically ClassNotFoundException or NoClassDefFoundError...
+      return false;
+    }
+  }
+
+  public static ClassLoader getDefaultClassLoader() {
+    ClassLoader cl = null;
+    try {
+      cl = Thread.currentThread().getContextClassLoader();
+    }
+    catch (Throwable ex) {
+      // Cannot access thread context ClassLoader - falling back...
+    }
+    if (cl == null) {
+      // No thread context class loader -> use class loader of this class.
+      cl = ClassLoaderUtil.class.getClassLoader();
+      if (cl == null) {
+        // getClassLoader() returning null indicates the bootstrap ClassLoader
+        try {
+          cl = ClassLoader.getSystemClassLoader();
+        }
+        catch (Throwable ex) {
+          // Cannot access system ClassLoader - oh well, maybe the caller can live with null...
+        }
+      }
+    }
+    return cl;
   }
 }

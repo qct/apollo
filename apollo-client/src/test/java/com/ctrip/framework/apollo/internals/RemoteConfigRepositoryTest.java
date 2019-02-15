@@ -53,7 +53,7 @@ import com.google.gson.Gson;
 @RunWith(MockitoJUnitRunner.class)
 public class RemoteConfigRepositoryTest {
   @Mock
-  private ConfigServiceLocator configServiceLocator;
+  private ConfigServiceFactory configServiceLocator;
   private String someNamespace;
   private String someServerUrl;
   private ConfigUtil configUtil;
@@ -80,7 +80,7 @@ public class RemoteConfigRepositoryTest {
 
     when(serviceDTO.getHomepageUrl()).thenReturn(someServerUrl);
     when(configServiceLocator.getConfigServices()).thenReturn(Lists.newArrayList(serviceDTO));
-    MockInjector.setInstance(ConfigServiceLocator.class, configServiceLocator);
+    MockInjector.setInstance(DefaultConfigServiceFactory.class, configServiceLocator);
 
     httpUtil = spy(new MockHttpUtil());
     MockInjector.setInstance(HttpUtil.class, httpUtil);

@@ -67,7 +67,7 @@ public class RemoteConfigLongPollService {
   private Gson gson;
   private ConfigUtil m_configUtil;
   private HttpUtil m_httpUtil;
-  private ConfigServiceLocator m_serviceLocator;
+  private ConfigServiceFactory m_serviceLocator;
 
   /**
    * Constructor.
@@ -87,7 +87,7 @@ public class RemoteConfigLongPollService {
     gson = new Gson();
     m_configUtil = ApolloInjector.getInstance(ConfigUtil.class);
     m_httpUtil = ApolloInjector.getInstance(HttpUtil.class);
-    m_serviceLocator = ApolloInjector.getInstance(ConfigServiceLocator.class);
+    m_serviceLocator = ApolloInjector.getInstance(DefaultConfigServiceFactory.class);
     m_longPollRateLimiter = RateLimiter.create(m_configUtil.getLongPollQPS());
   }
 

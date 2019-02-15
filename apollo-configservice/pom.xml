@@ -12,6 +12,7 @@
 	<name>Apollo ConfigService</name>
 	<properties>
 		<github.path>${project.artifactId}</github.path>
+		<maven.resources.overwrite>false</maven.resources.overwrite>
 	</properties>
 	<dependencies>
 		<!-- apollo -->
@@ -20,51 +21,7 @@
 			<artifactId>apollo-biz</artifactId>
 		</dependency>
 		<!-- end of apollo -->
-		<!-- eureka -->
-		<dependency>
-			<groupId>org.springframework.cloud</groupId>
-			<artifactId>spring-cloud-starter-netflix-eureka-server</artifactId>
-			<exclusions>
-				<exclusion>
-					<artifactId>spring-cloud-starter-netflix-archaius</artifactId>
-					<groupId>org.springframework.cloud</groupId>
-				</exclusion>
-				<exclusion>
-					<artifactId>spring-cloud-starter-netflix-ribbon</artifactId>
-					<groupId>org.springframework.cloud</groupId>
-				</exclusion>
-				<exclusion>
-					<artifactId>ribbon-eureka</artifactId>
-					<groupId>com.netflix.ribbon</groupId>
-				</exclusion>
-				<exclusion>
-					<artifactId>aws-java-sdk-core</artifactId>
-					<groupId>com.amazonaws</groupId>
-				</exclusion>
-				<exclusion>
-					<artifactId>aws-java-sdk-ec2</artifactId>
-					<groupId>com.amazonaws</groupId>
-				</exclusion>
-				<exclusion>
-					<artifactId>aws-java-sdk-autoscaling</artifactId>
-					<groupId>com.amazonaws</groupId>
-				</exclusion>
-				<exclusion>
-					<artifactId>aws-java-sdk-sts</artifactId>
-					<groupId>com.amazonaws</groupId>
-				</exclusion>
-				<exclusion>
-					<artifactId>aws-java-sdk-route53</artifactId>
-					<groupId>com.amazonaws</groupId>
-				</exclusion>
-				<!-- duplicated with spring-security-core -->
-				<exclusion>
-					<groupId>org.springframework.security</groupId>
-					<artifactId>spring-security-crypto</artifactId>
-				</exclusion>
-			</exclusions>
-		</dependency>
-		<!-- end of eureka -->
+
 		<dependency>
 			<groupId>com.h2database</groupId>
 			<artifactId>h2</artifactId>
@@ -78,22 +35,6 @@
 				<artifactId>spring-boot-maven-plugin</artifactId>
 				<configuration>
 					<executable>true</executable>
-				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>com.spotify</groupId>
-				<artifactId>docker-maven-plugin</artifactId>
-				<version>0.4.13</version>
-				<configuration>
-					<imageName>${project.artifactId}</imageName>
-					<dockerDirectory>src/main/docker</dockerDirectory>
-					<resources>
-						<resource>
-							<targetPath>/</targetPath>
-							<directory>${project.build.directory}</directory>
-							<include>*.zip</include>
-						</resource>
-					</resources>
 				</configuration>
 			</plugin>
 			<plugin>
@@ -116,4 +57,50 @@
 			</plugin>
 		</plugins>
 	</build>
+
+	<profiles>
+		<profile>
+			<id>k8s</id>
+			<properties>
+				<dockerfile-maven-plugin.skip>false</dockerfile-maven-plugin.skip>
+			</properties>
+			<build>
+				<resources>
+					<resource>
+						<directory>src/main/resources</directory>
+						<filtering>true</filtering>
+						<includes>
+							<include>**/*.yml</include>
+							<include>**/*.yaml</include>
+							<include>**/*.properties</include>
+							<include>**/*.xml</include>
+						</includes>
+					</resource>
+					<resource>
+						<directory>src/main/resources</directory>
+						<filtering>false</filtering>
+						<excludes>
+							<exclude>**/*.yml</exclude>
+							<exclude>**/*.yaml</exclude>
+							<exclude>**/*.properties</exclude>
+							<exclude>**/*.xml</exclude>
+						</excludes>
+					</resource>
+					<resource>
+						<directory>src/main/config</directory>
+						<excludes>
+							<exclude>*</exclude>
+						</excludes>
+					</resource>
+				</resources>
+				<plugins>
+					<plugin>
+						<groupId>org.springframework.boot</groupId>
+						<artifactId>spring-boot-maven-plugin</artifactId>
+						<configuration combine.self="override"/>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
 </project>

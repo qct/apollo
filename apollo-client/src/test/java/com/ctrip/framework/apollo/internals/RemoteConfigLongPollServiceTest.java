@@ -52,7 +52,7 @@ public class RemoteConfigLongPollServiceTest {
   @Mock
   private HttpUtil httpUtil;
   @Mock
-  private ConfigServiceLocator configServiceLocator;
+  private ConfigServiceFactory configServiceLocator;
   private Type responseType;
 
   private static String someServerUrl;
@@ -69,7 +69,7 @@ public class RemoteConfigLongPollServiceTest {
     ServiceDTO serviceDTO = mock(ServiceDTO.class);
     when(serviceDTO.getHomepageUrl()).thenReturn(someServerUrl);
     when(configServiceLocator.getConfigServices()).thenReturn(Lists.newArrayList(serviceDTO));
-    MockInjector.setInstance(ConfigServiceLocator.class, configServiceLocator);
+    MockInjector.setInstance(DefaultConfigServiceFactory.class, configServiceLocator);
 
     MockInjector.setInstance(ConfigUtil.class, new MockConfigUtil());
 

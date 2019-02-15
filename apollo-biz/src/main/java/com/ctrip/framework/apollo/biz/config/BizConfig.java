@@ -44,15 +44,6 @@ public class BizConfig extends RefreshableConfig {
     return Collections.singletonList(propertySource);
   }
 
-  public List<String> eurekaServiceUrls() {
-    String configuration = getValue("eureka.service.url", "");
-    if (Strings.isNullOrEmpty(configuration)) {
-      return Collections.emptyList();
-    }
-
-    return splitter.splitToList(configuration);
-  }
-
   public int grayReleaseRuleScanInterval() {
     int interval = getIntProperty("apollo.gray-release-rule-scan.interval", DEFAULT_GRAY_RELEASE_RULE_SCAN_INTERVAL);
     return checkInt(interval, 1, Integer.MAX_VALUE, DEFAULT_GRAY_RELEASE_RULE_SCAN_INTERVAL);

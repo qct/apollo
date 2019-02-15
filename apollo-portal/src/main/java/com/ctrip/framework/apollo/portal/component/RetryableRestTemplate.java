@@ -1,12 +1,14 @@
 package com.ctrip.framework.apollo.portal.component;
 
 import com.ctrip.framework.apollo.common.exception.ServiceException;
-import com.ctrip.framework.apollo.core.MetaDomainConsts;
 import com.ctrip.framework.apollo.core.dto.ServiceDTO;
 import com.ctrip.framework.apollo.core.enums.Env;
 import com.ctrip.framework.apollo.portal.constant.TracerEventType;
 import com.ctrip.framework.apollo.tracer.Tracer;
 import com.ctrip.framework.apollo.tracer.spi.Transaction;
+import java.net.SocketTimeoutException;
+import java.util.List;
+import javax.annotation.PostConstruct;
 import org.apache.http.conn.ConnectTimeoutException;
 import org.apache.http.conn.HttpHostConnectException;
 import org.slf4j.Logger;
@@ -22,10 +24,6 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.DefaultUriBuilderFactory;
 import org.springframework.web.util.UriTemplateHandler;
 
-import javax.annotation.PostConstruct;
-import java.net.SocketTimeoutException;
-import java.util.List;
-
 /**
  * 封装RestTemplate. admin server集群在某些机器宕机或者超时的情况下轮询重试
  */
@@ -39,13 +37,13 @@ public class RetryableRestTemplate {
   private RestTemplate restTemplate;
 
   private final RestTemplateFactory restTemplateFactory;
-  private final AdminServiceAddressLocator adminServiceAddressLocator;
+  private final AdminAndConfigServiceLocator adminAndConfigServiceLocator;
 
   public RetryableRestTemplate(
       final @Lazy RestTemplateFactory restTemplateFactory,
-      final @Lazy AdminServiceAddressLocator adminServiceAddressLocator) {
+      final @Lazy AdminAndConfigServiceLocator adminAndConfigServiceLocator) {
     this.restTemplateFactory = restTemplateFactory;
-    this.adminServiceAddressLocator = adminServiceAddressLocator;
+    this.adminAndConfigServiceLocator = adminAndConfigServiceLocator;
   }
 
 
@@ -114,9 +112,7 @@ public class RetryableRestTemplate {
     }
 
     //all admin server down
-    ServiceException e =
-        new ServiceException(String.format("Admin servers are unresponsive. meta server address: %s, admin servers: %s",
-                                           MetaDomainConsts.getDomain(env), services));
+    ServiceException e = new ServiceException("Admin servers are unresponsive");
     ct.setStatus(e);
     ct.complete();
     throw e;
@@ -158,9 +154,7 @@ public class RetryableRestTemplate {
     }
 
     //all admin server down
-    ServiceException e =
-        new ServiceException(String.format("Admin servers are unresponsive. meta server address: %s, admin servers: %s",
-                                           MetaDomainConsts.getDomain(env), services));
+    ServiceException e = new ServiceException("Admin servers are unresponsive");
     ct.setStatus(e);
     ct.complete();
     throw e;
@@ -169,13 +163,10 @@ public class RetryableRestTemplate {
 
   private List<ServiceDTO> getAdminServices(Env env, Transaction ct) {
 
-    List<ServiceDTO> services = adminServiceAddressLocator.getServiceList(env);
+    List<ServiceDTO> services = adminAndConfigServiceLocator.getAdminService(env);
 
     if (CollectionUtils.isEmpty(services)) {
-      ServiceException e = new ServiceException(String.format("No available admin server."
-                                                              + " Maybe because of meta server down or all admin server down. "
-                                                              + "Meta server address: %s",
-                                                              MetaDomainConsts.getDomain(env)));
+      ServiceException e = new ServiceException("No available admin server.");
       ct.setStatus(e);
       ct.complete();
       throw e;
@@ -208,7 +199,7 @@ public class RetryableRestTemplate {
     return result;
   }
 
-  private String parseHost(ServiceDTO serviceAddress) {
+  private String  parseHost(ServiceDTO serviceAddress) {
     return serviceAddress.getHomepageUrl() + "/";
   }
 
