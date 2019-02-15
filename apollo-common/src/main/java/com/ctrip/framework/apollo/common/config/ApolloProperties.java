@@ -12,8 +12,8 @@ import org.springframework.stereotype.Component;
 /**
  * default description.
  *
- * @author Damon.Q
- * @since 1.0
+ * @author qct
+ * @since 2.0.0
  */
 @ConfigurationProperties(prefix = "apollo")
 @Component

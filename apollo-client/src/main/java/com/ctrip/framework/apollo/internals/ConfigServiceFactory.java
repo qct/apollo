@@ -6,8 +6,8 @@ import java.util.List;
 /**
  * Only one place to locate & provide config service.
  *
- * @author Damon.Q
- * @since 1.0
+ * @author qct
+ * @since 2.0.0
  */
 public interface ConfigServiceFactory {
 
