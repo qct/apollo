@@ -18,12 +18,6 @@
 			<groupId>com.ctrip.framework.apollo</groupId>
 			<artifactId>apollo-common</artifactId>
 		</dependency>
-		<!-- eureka -->
-		<dependency>
-			<groupId>org.springframework.cloud</groupId>
-			<artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
-		</dependency>
-		<!-- end of eureka -->
 		<dependency>
 			<groupId>com.h2database</groupId>
 			<artifactId>h2</artifactId>

@@ -1,6 +1,7 @@
 package com.ctrip.framework.apollo.configservice.integration;
 
 import com.ctrip.framework.apollo.configservice.service.AppNamespaceServiceWithCache;
+import com.ctrip.framework.apollo.core.utils.StringUtils;
 import com.google.common.base.Joiner;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
@@ -9,7 +10,6 @@ import com.google.gson.Gson;
 
 import com.ctrip.framework.apollo.biz.entity.Namespace;
 import com.ctrip.framework.apollo.core.ConfigConsts;
-import com.netflix.servo.util.Strings;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -318,7 +318,7 @@ public class ConfigFileControllerIntegrationTest extends AbstractBaseIntegration
     assertEquals(response.getBody(), anotherResponse.getBody());
 
     List<String> keys = Lists.newArrayList(someAppId, someCluster, someNamespace);
-    String message = Strings.join(ConfigConsts.CLUSTER_NAMESPACE_SEPARATOR, keys.iterator());
+    String message = StringUtils.join(keys, ConfigConsts.CLUSTER_NAMESPACE_SEPARATOR);
     sendReleaseMessage(message);
 
     TimeUnit.MILLISECONDS.sleep(500);

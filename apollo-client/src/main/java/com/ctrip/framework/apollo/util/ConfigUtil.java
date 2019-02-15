@@ -8,7 +8,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.ctrip.framework.apollo.core.ConfigConsts;
-import com.ctrip.framework.apollo.core.MetaDomainConsts;
 import com.ctrip.framework.apollo.core.enums.Env;
 import com.ctrip.framework.apollo.core.enums.EnvUtils;
 import com.ctrip.framework.foundation.Foundation;
@@ -112,9 +111,7 @@ public class ConfigUtil {
     return Foundation.net().getHostAddress();
   }
 
-  public String getMetaServerDomainName() {
-    return MetaDomainConsts.getDomain(getApolloEnv());
-  }
+
 
   private void initConnectTimeout() {
     String customizedConnectTimeout = System.getProperty("apollo.connectTimeout");

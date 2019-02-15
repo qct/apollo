@@ -2,7 +2,7 @@ spring:
   application:
     name: apollo-adminservice
   datasource:
-    url: jdbc:mysql://service-mysql-for-apollo.sre:3306/ApolloConfigDB?characterEncoding=utf8
+    url: jdbc:mysql://127.0.0.1:3306/ApolloConfigDB?characterEncoding=utf8
     username: root
     password: root
 server:

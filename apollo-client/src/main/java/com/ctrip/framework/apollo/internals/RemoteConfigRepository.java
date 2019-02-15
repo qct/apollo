@@ -51,7 +51,7 @@ public class RemoteConfigRepository extends AbstractConfigRepository {
   private static final Escaper pathEscaper = UrlEscapers.urlPathSegmentEscaper();
   private static final Escaper queryParamEscaper = UrlEscapers.urlFormParameterEscaper();
 
-  private final ConfigServiceLocator m_serviceLocator;
+  private final ConfigServiceFactory m_serviceLocator;
   private final HttpUtil m_httpUtil;
   private final ConfigUtil m_configUtil;
   private final RemoteConfigLongPollService remoteConfigLongPollService;
@@ -80,7 +80,7 @@ public class RemoteConfigRepository extends AbstractConfigRepository {
     m_configCache = new AtomicReference<>();
     m_configUtil = ApolloInjector.getInstance(ConfigUtil.class);
     m_httpUtil = ApolloInjector.getInstance(HttpUtil.class);
-    m_serviceLocator = ApolloInjector.getInstance(ConfigServiceLocator.class);
+    m_serviceLocator = ApolloInjector.getInstance(DefaultConfigServiceFactory.class);
     remoteConfigLongPollService = ApolloInjector.getInstance(RemoteConfigLongPollService.class);
     m_longPollServiceDto = new AtomicReference<>();
     m_remoteMessages = new AtomicReference<>();

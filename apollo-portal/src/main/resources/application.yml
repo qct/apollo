@@ -2,7 +2,7 @@ spring:
   application:
     name: apollo-portal
   datasource:
-    url: jdbc:mysql://service-mysql-for-apollo.sre:3306/ApolloConfigDB?characterEncoding=utf8
+    url: jdbc:mysql://127.0.0.1:3306/ApolloPortalDB?characterEncoding=utf8
     username: root
     password: root
 server:
@@ -16,4 +16,10 @@ logging:
 management:
   health:
     status:
-      order: DOWN, OUT_OF_SERVICE, UNKNOWN, UP 
+      order: DOWN, OUT_OF_SERVICE, UNKNOWN, UP
+
+apollo:
+  config-service-url:
+    dev: http://localhost:8080
+  admin-service-url:
+    dev: http://localhost:8090

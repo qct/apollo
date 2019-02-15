@@ -4,8 +4,7 @@ import com.ctrip.framework.apollo.build.ApolloInjector;
 import com.ctrip.framework.apollo.core.dto.ApolloConfig;
 import com.ctrip.framework.apollo.core.dto.ApolloConfigNotification;
 import com.ctrip.framework.apollo.core.utils.ResourceUtils;
-import com.ctrip.framework.apollo.internals.ConfigServiceLocator;
-import com.google.common.collect.ImmutableMap;
+import com.ctrip.framework.apollo.internals.DefaultConfigServiceFactory;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Maps;
 import com.google.gson.Gson;
@@ -36,7 +35,7 @@ public class EmbeddedApollo extends ExternalResource {
   }.getType();
 
   private static Method CONFIG_SERVICE_LOCATOR_CLEAR;
-  private static ConfigServiceLocator CONFIG_SERVICE_LOCATOR;
+  private static DefaultConfigServiceFactory CONFIG_SERVICE_LOCATOR;
 
   private final Gson gson = new Gson();
   private final Map<String, Map<String, String>> addedOrModifiedPropertiesOfNamespace = new HashMap<>();
@@ -47,8 +46,8 @@ public class EmbeddedApollo extends ExternalResource {
   static {
     try {
       System.setProperty("apollo.longPollingInitialDelayInMills", "0");
-      CONFIG_SERVICE_LOCATOR = ApolloInjector.getInstance(ConfigServiceLocator.class);
-      CONFIG_SERVICE_LOCATOR_CLEAR = ConfigServiceLocator.class.getDeclaredMethod("initConfigServices");
+      CONFIG_SERVICE_LOCATOR = ApolloInjector.getInstance(DefaultConfigServiceFactory.class);
+      CONFIG_SERVICE_LOCATOR_CLEAR = DefaultConfigServiceFactory.class.getDeclaredMethod("initConfigServices");
       CONFIG_SERVICE_LOCATOR_CLEAR.setAccessible(true);
     } catch (NoSuchMethodException e) {
       e.printStackTrace();
