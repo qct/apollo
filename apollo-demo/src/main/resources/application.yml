@@ -2,8 +2,4 @@ apollo:
   bootstrap:
     enabled: true
     # will inject 'application' and 'TEST1.apollo' namespaces in bootstrap phase
-    namespaces: application,TEST1.apollo
-  config-service-url:
-    dev: http://localhost:8080
-app:
-  id: a1
+    namespaces: application,TEST1.apollo,application.yaml

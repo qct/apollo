@@ -262,6 +262,10 @@ The project is licensed under the [Apache 2 license](https://github.com/ctripcor
 ![龙腾出行](https://raw.githubusercontent.com/ctripcorp/apollo/master/doc/images/known-users/dragonpass.png) 
 ![荔枝](https://raw.githubusercontent.com/ctripcorp/apollo/master/doc/images/known-users/lizhi.fm.png) 
 ![汇通达](https://raw.githubusercontent.com/ctripcorp/apollo/master/doc/images/known-users/htd.png) 
+![云融金科](https://raw.githubusercontent.com/ctripcorp/apollo/master/doc/images/known-users/yunrong.png) 
+![天生掌柜](https://raw.githubusercontent.com/ctripcorp/apollo/master/doc/images/known-users/tszg360.png) 
+![容联光辉](https://raw.githubusercontent.com/ctripcorp/apollo/master/doc/images/known-users/rongplus.png) 
+![云天励飞](https://raw.githubusercontent.com/ctripcorp/apollo/master/doc/images/known-users/intellif.png) 
 
 # Awards
 
