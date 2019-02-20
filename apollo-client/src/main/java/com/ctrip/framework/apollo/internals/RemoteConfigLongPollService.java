@@ -1,5 +1,6 @@
 package com.ctrip.framework.apollo.internals;
 
+import com.ctrip.framework.apollo.ConfigServiceFactory;
 import com.google.common.base.Joiner;
 import com.google.common.base.Strings;
 import com.google.common.collect.HashMultimap;
@@ -87,7 +88,7 @@ public class RemoteConfigLongPollService {
     gson = new Gson();
     m_configUtil = ApolloInjector.getInstance(ConfigUtil.class);
     m_httpUtil = ApolloInjector.getInstance(HttpUtil.class);
-    m_serviceLocator = ApolloInjector.getInstance(DefaultConfigServiceFactory.class);
+    m_serviceLocator = ApolloInjector.getInstance(CompositeConfigServiceFactory.class);
     m_longPollRateLimiter = RateLimiter.create(m_configUtil.getLongPollQPS());
   }
 

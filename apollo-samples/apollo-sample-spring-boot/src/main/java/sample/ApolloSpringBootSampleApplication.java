@@ -2,6 +2,7 @@ package sample;
 
 import com.ctrip.framework.apollo.Config;
 import com.ctrip.framework.apollo.ConfigService;
+import com.ctrip.framework.apollo.spring.annotation.EnableApolloConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
@@ -15,6 +16,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @since 2.0.0
  */
 @SpringBootApplication
+@EnableApolloConfig
 public class ApolloSpringBootSampleApplication implements CommandLineRunner {
 
     private static final Logger logger = LoggerFactory.getLogger(ApolloSpringBootSampleApplication.class);

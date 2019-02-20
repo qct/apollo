@@ -12,6 +12,7 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import com.ctrip.framework.apollo.ConfigServiceFactory;
 import com.ctrip.framework.apollo.enums.ConfigSourceType;
 import java.lang.reflect.Type;
 import java.util.List;
@@ -80,7 +81,7 @@ public class RemoteConfigRepositoryTest {
 
     when(serviceDTO.getHomepageUrl()).thenReturn(someServerUrl);
     when(configServiceLocator.getConfigServices()).thenReturn(Lists.newArrayList(serviceDTO));
-    MockInjector.setInstance(DefaultConfigServiceFactory.class, configServiceLocator);
+    MockInjector.setInstance(CompositeConfigServiceFactory.class, configServiceLocator);
 
     httpUtil = spy(new MockHttpUtil());
     MockInjector.setInstance(HttpUtil.class, httpUtil);

@@ -59,7 +59,7 @@ public class DefaultInjector implements Injector {
       bind(ConfigFactory.class).to(DefaultConfigFactory.class).in(Singleton.class);
       bind(ConfigUtil.class).in(Singleton.class);
       bind(HttpUtil.class).in(Singleton.class);
-      bind(DefaultConfigServiceFactory.class).in(Singleton.class);
+      bind(CompositeConfigServiceFactory.class).in(Singleton.class);
       bind(RemoteConfigLongPollService.class).in(Singleton.class);
       bind(YamlParser.class).in(Singleton.class);
     }

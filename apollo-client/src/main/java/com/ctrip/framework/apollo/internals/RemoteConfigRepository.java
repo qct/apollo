@@ -1,5 +1,6 @@
 package com.ctrip.framework.apollo.internals;
 
+import com.ctrip.framework.apollo.ConfigServiceFactory;
 import com.ctrip.framework.apollo.enums.ConfigSourceType;
 import java.util.Collections;
 import java.util.List;
@@ -80,7 +81,7 @@ public class RemoteConfigRepository extends AbstractConfigRepository {
     m_configCache = new AtomicReference<>();
     m_configUtil = ApolloInjector.getInstance(ConfigUtil.class);
     m_httpUtil = ApolloInjector.getInstance(HttpUtil.class);
-    m_serviceLocator = ApolloInjector.getInstance(DefaultConfigServiceFactory.class);
+    m_serviceLocator = ApolloInjector.getInstance(CompositeConfigServiceFactory.class);
     remoteConfigLongPollService = ApolloInjector.getInstance(RemoteConfigLongPollService.class);
     m_longPollServiceDto = new AtomicReference<>();
     m_remoteMessages = new AtomicReference<>();

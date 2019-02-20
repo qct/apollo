@@ -15,9 +15,12 @@ public class NonSpringBootSampleApplication {
 
     private static final Logger logger = LoggerFactory.getLogger(NonSpringBootSampleApplication.class);
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
         System.out.println("This is non spring boot sample");
         Config config = ConfigService.getAppConfig();
-        logger.debug("Load from apollo, config size: {}", config.getPropertyNames());
+        while (true) {
+            logger.debug("Load from apollo, config size: {}", config.getPropertyNames());
+            Thread.sleep(5000L);
+        }
     }
 }
