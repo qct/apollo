@@ -2,6 +2,7 @@ package com.ctrip.framework.apollo.adminservice.controller;
 
 import com.ctrip.framework.apollo.common.dto.NamespaceDTO;
 import com.ctrip.framework.apollo.common.utils.InputValidator;
+import java.nio.charset.StandardCharsets;
 import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.web.client.HttpClientErrorException;
@@ -25,7 +26,7 @@ public class NamespaceControllerTest extends AbstractControllerTest {
           namespaceDTO, NamespaceDTO.class, namespaceDTO.getAppId(), namespaceDTO.getClusterName());
       Assert.fail("Should throw");
     } catch (HttpClientErrorException e) {
-      Assert.assertThat(new String(e.getResponseBodyAsByteArray()), containsString(InputValidator.INVALID_CLUSTER_NAMESPACE_MESSAGE));
+      Assert.assertThat(new String(e.getResponseBodyAsByteArray(), StandardCharsets.UTF_8), containsString(InputValidator.INVALID_CLUSTER_NAMESPACE_MESSAGE));
     }
   }
 }

@@ -1,10 +1,13 @@
 package com.ctrip.framework.apollo.adminservice.controller;
 
+import static org.hamcrest.Matchers.containsString;
+
 import com.ctrip.framework.apollo.biz.repository.AppRepository;
 import com.ctrip.framework.apollo.common.dto.AppDTO;
 import com.ctrip.framework.apollo.common.entity.App;
 import com.ctrip.framework.apollo.common.utils.BeanUtils;
 import com.ctrip.framework.apollo.common.utils.InputValidator;
+import java.nio.charset.StandardCharsets;
 import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +16,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.jdbc.Sql.ExecutionPhase;
 import org.springframework.web.client.HttpClientErrorException;
-import static org.hamcrest.Matchers.containsString;
 
 public class AppControllerTest extends AbstractControllerTest {
 
@@ -123,7 +125,8 @@ public class AppControllerTest extends AbstractControllerTest {
       Assert.fail("Should throw");
     } catch (HttpClientErrorException e) {
       Assert.assertEquals(HttpStatus.BAD_REQUEST, e.getStatusCode());
-      Assert.assertThat(new String(e.getResponseBodyAsByteArray()), containsString(InputValidator.INVALID_CLUSTER_NAMESPACE_MESSAGE));
+      Assert.assertThat(new String(e.getResponseBodyAsByteArray(), StandardCharsets.UTF_8),
+          containsString(InputValidator.INVALID_CLUSTER_NAMESPACE_MESSAGE));
     }
   }
 

@@ -6,6 +6,7 @@ import com.ctrip.framework.apollo.common.dto.ClusterDTO;
 import com.ctrip.framework.apollo.common.exception.BadRequestException;
 import com.ctrip.framework.apollo.common.utils.InputValidator;
 import com.ctrip.framework.apollo.core.ConfigConsts;
+import java.nio.charset.StandardCharsets;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -64,7 +65,7 @@ public class ClusterControllerTest extends AbstractControllerTest {
       restTemplate.postForEntity(baseUrl() + "/apps/{appId}/clusters", cluster, ClusterDTO.class, cluster.getAppId());
       Assert.fail("Should throw");
     } catch (HttpClientErrorException e) {
-      Assert.assertThat(new String(e.getResponseBodyAsByteArray()), containsString(InputValidator.INVALID_CLUSTER_NAMESPACE_MESSAGE));
+      Assert.assertThat(new String(e.getResponseBodyAsByteArray(), StandardCharsets.UTF_8), containsString(InputValidator.INVALID_CLUSTER_NAMESPACE_MESSAGE));
     }
   }
 
