@@ -159,28 +159,11 @@ public class ConfigIntegrationTest extends BaseIntegrationTest {
   }
 
   @Test
-  public void testGetConfigWithNoLocalFileAndRemoteMetaServiceRetry() throws Exception {
-    String someKey = "someKey";
-    String someValue = "someValue";
-    ApolloConfig apolloConfig = assembleApolloConfig(ImmutableMap.of(someKey, someValue));
-    ContextHandler configHandler = mockConfigServerHandler(HttpServletResponse.SC_OK, apolloConfig);
-    boolean failAtFirstTime = true;
-    ContextHandler metaServerHandler = mockMetaServerHandler(failAtFirstTime);
-    startServerWithHandlers(metaServerHandler, configHandler);
-
-    Config config = ConfigService.getAppConfig();
-
-    assertEquals(someValue, config.getProperty(someKey, null));
-  }
-
-  @Test
   public void testGetConfigWithNoLocalFileAndRemoteConfigServiceRetry() throws Exception {
     String someKey = "someKey";
     String someValue = "someValue";
     ApolloConfig apolloConfig = assembleApolloConfig(ImmutableMap.of(someKey, someValue));
-    boolean failedAtFirstTime = true;
-    ContextHandler handler =
-        mockConfigServerHandler(HttpServletResponse.SC_OK, apolloConfig, failedAtFirstTime);
+    ContextHandler handler = mockConfigServerHandler(HttpServletResponse.SC_OK, apolloConfig, true);
     startServerWithHandlers(handler);
 
     Config config = ConfigService.getAppConfig();

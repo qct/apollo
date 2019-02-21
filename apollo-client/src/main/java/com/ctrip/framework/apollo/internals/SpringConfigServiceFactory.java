@@ -36,8 +36,16 @@ public class SpringConfigServiceFactory implements ConfigServiceFactory, Applica
     @Override
     public List<ServiceDTO> getConfigServices() {
         Env env = configUtil.getApolloEnv();
-        String key = Env.UNKNOWN == env ? CONFIG_SERVICE_URL_PREFIX : CONFIG_SERVICE_URL_PREFIX + "." + env;
-        String url = environment.getProperty(key.toLowerCase(), environment.getProperty(key.toUpperCase()));
+        String url;
+        if (Env.UNKNOWN == env) {
+            url = this.environment.getProperty(CONFIG_SERVICE_URL_PREFIX);
+        } else {
+            url = this.environment.getProperty(CONFIG_SERVICE_URL_PREFIX + "." + env);
+            if (Strings.isNullOrEmpty(url)) {
+                url = this.environment.getProperty(CONFIG_SERVICE_URL_PREFIX);
+            }
+        }
+
         if (Strings.isNullOrEmpty(url)) {
             return Collections.emptyList();
         }

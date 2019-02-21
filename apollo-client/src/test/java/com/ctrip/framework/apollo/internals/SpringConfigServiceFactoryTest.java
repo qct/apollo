@@ -3,6 +3,7 @@ package com.ctrip.framework.apollo.internals;
 import static org.junit.Assert.assertEquals;
 
 import com.ctrip.framework.apollo.core.dto.ServiceDTO;
+import com.ctrip.framework.apollo.spring.AbstractSpringIntegrationTest;
 import java.util.List;
 import org.junit.After;
 import org.junit.Test;
@@ -16,7 +17,7 @@ import org.springframework.context.annotation.Configuration;
  * @author Damon.Q
  * @since 1.0
  */
-public class SpringConfigServiceFactoryTest {
+public class SpringConfigServiceFactoryTest extends AbstractSpringIntegrationTest {
 
     private ConfigurableApplicationContext context;
 

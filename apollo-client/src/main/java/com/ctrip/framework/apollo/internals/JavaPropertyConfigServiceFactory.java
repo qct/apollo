@@ -26,15 +26,24 @@ public class JavaPropertyConfigServiceFactory implements ConfigServiceFactory {
     @Override
     public List<ServiceDTO> getConfigServices() {
         Env env = configUtil.getApolloEnv();
-        String key = Env.UNKNOWN == env ? CONFIG_SERVICE_URL_PREFIX : CONFIG_SERVICE_URL_PREFIX + "." + env;
-        String url = System.getProperty(key.toLowerCase());
-        if (Strings.isNullOrEmpty(url)) {
-            url = System.getProperty(key.toUpperCase());
+        String url;
+        if (Env.UNKNOWN == env) {
+            url = getPropertyIgnoreCase(CONFIG_SERVICE_URL_PREFIX);
+        } else {
+            url = getPropertyIgnoreCase(CONFIG_SERVICE_URL_PREFIX + "." + env);
+            if (Strings.isNullOrEmpty(url)) {
+                url = getPropertyIgnoreCase(CONFIG_SERVICE_URL_PREFIX);
+            }
         }
+
         if (Strings.isNullOrEmpty(url)) {
             return Collections.emptyList();
         }
         return toServices(url);
+    }
+
+    private String getPropertyIgnoreCase(String key) {
+        return System.getProperty(key.toUpperCase(), System.getProperty(key.toLowerCase()));
     }
 
     @Override

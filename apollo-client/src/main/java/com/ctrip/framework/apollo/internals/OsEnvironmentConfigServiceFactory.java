@@ -26,12 +26,16 @@ public class OsEnvironmentConfigServiceFactory implements ConfigServiceFactory {
     @Override
     public List<ServiceDTO> getConfigServices() {
         Env env = configUtil.getApolloEnv();
-        String key = Env.UNKNOWN == env ? CONFIG_SERVICE_URL_PREFIX : CONFIG_SERVICE_URL_PREFIX + "." + env;
-
-        String url = System.getenv(key.toLowerCase());
-        if (Strings.isNullOrEmpty(url)) {
-            url = System.getenv(key.toUpperCase());
+        String url;
+        if (Env.UNKNOWN == env) {
+            url = getPropertyIgnoreCase(CONFIG_SERVICE_URL_PREFIX);
+        } else {
+            url = getPropertyIgnoreCase(CONFIG_SERVICE_URL_PREFIX + "." + env);
+            if (Strings.isNullOrEmpty(url)) {
+                url = getPropertyIgnoreCase(CONFIG_SERVICE_URL_PREFIX);
+            }
         }
+
         if (Strings.isNullOrEmpty(url)) {
             return Collections.emptyList();
         }
@@ -41,5 +45,13 @@ public class OsEnvironmentConfigServiceFactory implements ConfigServiceFactory {
     @Override
     public int order() {
         return CONFIG_SERVICE_FACTORY_ORDER;
+    }
+
+    private String getPropertyIgnoreCase(String key) {
+        String url = System.getenv(key.toUpperCase());
+        if (!Strings.isNullOrEmpty(url)) {
+            return url;
+        }
+        return System.getenv(key.toLowerCase());
     }
 }

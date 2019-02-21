@@ -258,7 +258,7 @@ public class DefaultConfigTest {
 
     verify(someProperties, times(1)).getProperty(someKey);
 
-    TimeUnit.MILLISECONDS.sleep(50);
+    TimeUnit.MILLISECONDS.sleep(60);
 
     assertEquals(someValue, defaultConfig.getIntProperty(someKey, someDefaultValue));
     assertEquals(someValue, defaultConfig.getIntProperty(someKey, someDefaultValue));

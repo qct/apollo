@@ -1,18 +1,12 @@
 package com.ctrip.framework.apollo;
 
-import com.ctrip.framework.apollo.core.ConfigConsts;
+import static com.ctrip.framework.apollo.core.ConfigConsts.CONFIG_SERVICE_URL_PREFIX;
+
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.util.concurrent.TimeUnit;
-import java.util.concurrent.atomic.AtomicInteger;
 
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.eclipse.jetty.server.Request;
 import org.eclipse.jetty.server.Server;
-import org.eclipse.jetty.server.handler.AbstractHandler;
 import org.eclipse.jetty.server.handler.ContextHandler;
 import org.eclipse.jetty.server.handler.ContextHandlerCollection;
 import org.junit.After;
@@ -21,12 +15,10 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 
 import com.ctrip.framework.apollo.build.MockInjector;
-import com.ctrip.framework.apollo.core.dto.ServiceDTO;
 import com.ctrip.framework.apollo.core.enums.Env;
 import com.ctrip.framework.apollo.core.utils.ClassLoaderUtil;
 import com.ctrip.framework.apollo.internals.DefaultInjector;
 import com.ctrip.framework.apollo.util.ConfigUtil;
-import com.google.common.collect.Lists;
 import com.google.gson.Gson;
 
 /**
@@ -34,7 +26,6 @@ import com.google.gson.Gson;
  */
 public abstract class BaseIntegrationTest{
   private static final int PORT = findFreePort();
-  private static final String metaServiceUrl = "http://localhost:" + PORT;
   private static final String someAppName = "someAppName";
   private static final String someInstanceId = "someInstanceId";
   private static final String configServiceURL = "http://localhost:" + PORT;
@@ -48,12 +39,12 @@ public abstract class BaseIntegrationTest{
 
   @BeforeClass
   public static void beforeClass() throws Exception {
-    System.setProperty(ConfigConsts.APOLLO_META_KEY, metaServiceUrl);
+    System.setProperty(CONFIG_SERVICE_URL_PREFIX, configServiceURL);
   }
 
   @AfterClass
   public static void afterClass() throws Exception {
-    System.clearProperty(ConfigConsts.APOLLO_META_KEY);
+    System.clearProperty(CONFIG_SERVICE_URL_PREFIX);
   }
 
   @Before
@@ -82,7 +73,6 @@ public abstract class BaseIntegrationTest{
 
     ContextHandlerCollection contexts = new ContextHandlerCollection();
     contexts.setHandlers(handlers);
-    contexts.addHandler(mockMetaServerHandler());
 
     server.setHandler(contexts);
     server.start();
@@ -95,39 +85,6 @@ public abstract class BaseIntegrationTest{
     if (server != null && server.isStarted()) {
       server.stop();
     }
-  }
-
-  protected ContextHandler mockMetaServerHandler() {
-    return mockMetaServerHandler(false);
-  }
-
-  protected ContextHandler mockMetaServerHandler(final boolean failedAtFirstTime) {
-    final ServiceDTO someServiceDTO = new ServiceDTO();
-    someServiceDTO.setAppName(someAppName);
-    someServiceDTO.setInstanceId(someInstanceId);
-    someServiceDTO.setHomepageUrl(configServiceURL);
-    final AtomicInteger counter = new AtomicInteger(0);
-
-    ContextHandler context = new ContextHandler("/services/config");
-    context.setHandler(new AbstractHandler() {
-      @Override
-      public void handle(String target, Request baseRequest, HttpServletRequest request,
-                         HttpServletResponse response) throws IOException, ServletException {
-        if (failedAtFirstTime && counter.incrementAndGet() == 1) {
-          response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-          baseRequest.setHandled(true);
-          return;
-        }
-        response.setContentType("application/json;charset=UTF-8");
-        response.setStatus(HttpServletResponse.SC_OK);
-
-        response.getWriter().println(gson.toJson(Lists.newArrayList(someServiceDTO)));
-
-        baseRequest.setHandled(true);
-      }
-    });
-
-    return context;
   }
 
   protected void setRefreshInterval(int refreshInterval) {

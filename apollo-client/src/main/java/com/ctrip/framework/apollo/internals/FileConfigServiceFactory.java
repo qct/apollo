@@ -59,8 +59,16 @@ public class FileConfigServiceFactory implements ConfigServiceFactory {
     @Override
     public List<ServiceDTO> getConfigServices() {
         Env env = configUtil.getApolloEnv();
-        String key = Env.UNKNOWN == env ? CONFIG_SERVICE_URL_PREFIX : CONFIG_SERVICE_URL_PREFIX + "." + env;
-        String url = PROPERTIES.getProperty(key);
+        String url;
+        if (Env.UNKNOWN == env) {
+            url = PROPERTIES.getProperty(CONFIG_SERVICE_URL_PREFIX);
+        } else {
+            url = PROPERTIES.getProperty(CONFIG_SERVICE_URL_PREFIX + "." + env);
+            if (Strings.isNullOrEmpty(url)) {
+                url = PROPERTIES.getProperty(CONFIG_SERVICE_URL_PREFIX);
+            }
+        }
+
         if (Strings.isNullOrEmpty(url)) {
             return Collections.emptyList();
         }

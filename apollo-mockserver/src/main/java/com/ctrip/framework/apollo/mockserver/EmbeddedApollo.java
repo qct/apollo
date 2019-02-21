@@ -1,6 +1,7 @@
 package com.ctrip.framework.apollo.mockserver;
 
 import com.ctrip.framework.apollo.build.ApolloInjector;
+import com.ctrip.framework.apollo.core.ConfigConsts;
 import com.ctrip.framework.apollo.core.dto.ApolloConfig;
 import com.ctrip.framework.apollo.core.dto.ApolloConfigNotification;
 import com.ctrip.framework.apollo.core.utils.ResourceUtils;
@@ -9,7 +10,6 @@ import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Maps;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import java.lang.reflect.Method;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -34,7 +34,6 @@ public class EmbeddedApollo extends ExternalResource {
   private static final Type notificationType = new TypeToken<List<ApolloConfigNotification>>() {
   }.getType();
 
-  private static Method CONFIG_SERVICE_LOCATOR_CLEAR;
   private static CompositeConfigServiceFactory CONFIG_SERVICE_LOCATOR;
 
   private final Gson gson = new Gson();
@@ -44,14 +43,8 @@ public class EmbeddedApollo extends ExternalResource {
   private MockWebServer server;
 
   static {
-    try {
-      System.setProperty("apollo.longPollingInitialDelayInMills", "0");
-      CONFIG_SERVICE_LOCATOR = ApolloInjector.getInstance(CompositeConfigServiceFactory.class);
-      CONFIG_SERVICE_LOCATOR_CLEAR = CompositeConfigServiceFactory.class.getDeclaredMethod("initConfigServices");
-      CONFIG_SERVICE_LOCATOR_CLEAR.setAccessible(true);
-    } catch (NoSuchMethodException e) {
-      e.printStackTrace();
-    }
+    System.setProperty("apollo.longPollingInitialDelayInMills", "0");
+    CONFIG_SERVICE_LOCATOR = ApolloInjector.getInstance(CompositeConfigServiceFactory.class);
   }
 
   @Override
@@ -98,10 +91,8 @@ public class EmbeddedApollo extends ExternalResource {
     resetOverriddenProperties();
   }
 
-  private void mockConfigServiceUrl(String url) throws Exception {
-    System.setProperty("apollo.configService", url);
-
-    CONFIG_SERVICE_LOCATOR_CLEAR.invoke(CONFIG_SERVICE_LOCATOR);
+  private void mockConfigServiceUrl(String url) {
+    System.setProperty(ConfigConsts.CONFIG_SERVICE_URL_PREFIX, url);
   }
 
   private String loadConfigFor(String namespace) {
