@@ -2,8 +2,8 @@ package com.ctrip.framework.apollo.internals;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
-import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.eq;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
@@ -35,7 +35,7 @@ import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.invocation.InvocationOnMock;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.junit.MockitoJUnitRunner;
 import org.mockito.stubbing.Answer;
 import org.springframework.test.util.ReflectionTestUtils;
 
@@ -96,7 +96,7 @@ public class RemoteConfigLongPollServiceTest {
           TimeUnit.MILLISECONDS.sleep(50);
         } catch (InterruptedException e) {
         }
-        HttpRequest request = invocation.getArgumentAt(0, HttpRequest.class);
+        HttpRequest request = invocation.getArgument(0);
 
         assertTrue(request.getUrl().contains(someServerUrl + "/notifications/v2?"));
         assertTrue(request.getUrl().contains("appId=" + someAppId));
@@ -205,7 +205,7 @@ public class RemoteConfigLongPollServiceTest {
 
         //the first time
         if (counter.incrementAndGet() == 1) {
-          HttpRequest request = invocation.getArgumentAt(0, HttpRequest.class);
+          HttpRequest request = invocation.getArgument(0);
 
           assertTrue(request.getUrl().contains("notifications="));
           assertTrue(request.getUrl().contains(someNamespace));
@@ -215,7 +215,7 @@ public class RemoteConfigLongPollServiceTest {
           when(pollResponse.getStatusCode()).thenReturn(HttpServletResponse.SC_OK);
           when(pollResponse.getBody()).thenReturn(Lists.newArrayList(someNotification));
         } else if (submitAnotherNamespaceFinish.get()) {
-          HttpRequest request = invocation.getArgumentAt(0, HttpRequest.class);
+          HttpRequest request = invocation.getArgument(0);
           assertTrue(request.getUrl().contains("notifications="));
           assertTrue(request.getUrl().contains(someNamespace));
           assertTrue(request.getUrl().contains(anotherNamespace));
@@ -238,7 +238,7 @@ public class RemoteConfigLongPollServiceTest {
         onAnotherRepositoryNotified.set(true);
         return null;
       }
-    }).when(anotherRepository).onLongPollNotified(any(ServiceDTO.class), any(ApolloNotificationMessages.class));
+    }).when(anotherRepository).onLongPollNotified(any(ServiceDTO.class), any());
 
     remoteConfigLongPollService.submit(someNamespace, someRepository);
 
@@ -250,8 +250,8 @@ public class RemoteConfigLongPollServiceTest {
 
     remoteConfigLongPollService.stopLongPollingRefresh();
 
-    verify(someRepository, times(1)).onLongPollNotified(any(ServiceDTO.class), any(ApolloNotificationMessages.class));
-    verify(anotherRepository, times(1)).onLongPollNotified(any(ServiceDTO.class), any(ApolloNotificationMessages.class));
+    verify(someRepository, times(1)).onLongPollNotified(any(ServiceDTO.class), any());
+    verify(anotherRepository, times(1)).onLongPollNotified(any(ServiceDTO.class), any());
   }
 
   @Test

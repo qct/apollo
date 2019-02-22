@@ -14,10 +14,8 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.TreeSet;
-import javax.naming.Name;
 import javax.naming.directory.Attribute;
 import javax.naming.ldap.LdapName;
-import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.ldap.core.AttributesMapper;
@@ -133,7 +131,7 @@ public class LdapUserService implements UserService {
     ContainerCriteria criteria = query()
         .searchScope(SearchScope.SUBTREE)
         .where("objectClass").is(objectClassAttrName);
-    if (memberOf.length > 0 && !StringUtils.isEmpty(memberOf[0])) {
+    if (memberOf.length > 0 && !Strings.isNullOrEmpty(memberOf[0])) {
       ContainerCriteria memberOfFilters = query().where(MEMBER_OF_ATTR_NAME).is(memberOf[0]);
       Arrays.stream(memberOf).skip(1)
           .forEach(filter -> memberOfFilters.or(MEMBER_OF_ATTR_NAME).is(filter));
@@ -248,7 +246,7 @@ public class LdapUserService implements UserService {
   @Override
   public List<UserInfo> searchUsers(String keyword, int offset, int limit) {
     List<UserInfo> users = new ArrayList<>();
-    if (StringUtils.isNotBlank(groupSearch)) {
+    if (!Strings.isNullOrEmpty(groupSearch)) {
       List<UserInfo> userListByGroup = searchUserInfoByGroup(groupBase, groupSearch, keyword,
           null);
       users.addAll(userListByGroup);
@@ -271,7 +269,7 @@ public class LdapUserService implements UserService {
 
   @Override
   public UserInfo findByUserId(String userId) {
-    if (StringUtils.isNotBlank(groupSearch)) {
+    if (!Strings.isNullOrEmpty(groupSearch)) {
       List<UserInfo> lists = searchUserInfoByGroup(groupBase, groupSearch, null,
           Collections.singletonList(userId));
       if (lists != null && !lists.isEmpty() && lists.get(0) != null) {
@@ -291,7 +289,7 @@ public class LdapUserService implements UserService {
       return Collections.emptyList();
     } else {
       List<UserInfo> userList = new ArrayList<>();
-      if (StringUtils.isNotBlank(groupSearch)) {
+      if (!Strings.isNullOrEmpty(groupSearch)) {
         List<UserInfo> userListByGroup = searchUserInfoByGroup(groupBase, groupSearch, null,
             userIds);
         userList.addAll(userListByGroup);

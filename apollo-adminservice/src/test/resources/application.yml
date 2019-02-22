@@ -1,7 +1,9 @@
 spring:
   application:
     name: apollo-adminservice
-    
+
+  main:
+    allow-bean-definition-overriding: true
 server:
   port: ${port:8090}
   

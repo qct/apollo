@@ -11,6 +11,10 @@ import com.ctrip.framework.apollo.portal.service.ReleaseService;
 import com.ctrip.framework.apollo.portal.spi.MQService;
 import com.ctrip.framework.apollo.tracer.Tracer;
 
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -27,8 +31,7 @@ import javax.annotation.PostConstruct;
 
 public class CtripMQService implements MQService {
 
-  private static final org.apache.commons.lang.time.FastDateFormat
-      TIMESTAMP_FORMAT = org.apache.commons.lang.time.FastDateFormat.getInstance("yyyy-MM-dd hh:mm:ss");
+  private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss");
   private static final String CONFIG_PUBLISH_NOTIFY_TO_NOC_TOPIC = "ops.noc.record.created";
 
   private Gson gson = new Gson();
@@ -81,7 +84,9 @@ public class CtripMQService implements MQService {
     msg.setInfluence_bu(app.getOrgName());
     msg.setAppid(appId);
     msg.setAssginee(releaseHistory.getOperator());
-    msg.setOperation_time(TIMESTAMP_FORMAT.format(releaseHistory.getReleaseTime()));
+    LocalDateTime localDateTime = releaseHistory.getReleaseTime().toInstant().atZone(ZoneId.systemDefault())
+        .toLocalDateTime();
+    msg.setOperation_time(localDateTime.format(DATE_TIME_FORMATTER));
     msg.setDesc(gson.toJson(releaseService.compare(env, releaseHistory.getPreviousReleaseId(),
                                                    releaseHistory.getReleaseId())));
 

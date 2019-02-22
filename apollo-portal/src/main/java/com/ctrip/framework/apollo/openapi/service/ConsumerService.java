@@ -21,13 +21,14 @@ import com.google.common.base.Joiner;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
 import com.google.common.hash.Hashing;
-import org.apache.commons.lang.time.FastDateFormat;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * @author Jason Song(song_s@ctrip.com)
@@ -35,7 +36,7 @@ import java.util.List;
 @Service
 public class ConsumerService {
 
-  private static final FastDateFormat TIMESTAMP_FORMAT = FastDateFormat.getInstance("yyyyMMddHHmmss");
+  private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
   private static final Joiner KEY_JOINER = Joiner.on("|");
 
   private final UserInfoHolder userInfoHolder;
@@ -226,8 +227,10 @@ public class ConsumerService {
 
   String generateToken(String consumerAppId, Date generationTime, String
       consumerTokenSalt) {
-    return Hashing.sha1().hashString(KEY_JOINER.join(consumerAppId, TIMESTAMP_FORMAT.format
-        (generationTime), consumerTokenSalt), Charsets.UTF_8).toString();
+    LocalDateTime localDateTime = generationTime.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
+    return Hashing.sha1()
+        .hashString(KEY_JOINER.join(consumerAppId, localDateTime.format(DATE_TIME_FORMATTER), consumerTokenSalt),
+            Charsets.UTF_8).toString();
   }
 
     ConsumerRole createConsumerRole(Long consumerId, Long roleId, String operator) {

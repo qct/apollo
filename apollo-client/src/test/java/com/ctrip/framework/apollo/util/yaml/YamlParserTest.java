@@ -8,6 +8,7 @@ import java.util.Properties;
 import org.junit.Test;
 import org.springframework.beans.factory.config.YamlPropertiesFactoryBean;
 import org.springframework.core.io.ByteArrayResource;
+import org.yaml.snakeyaml.constructor.DuplicateKeyException;
 import org.yaml.snakeyaml.parser.ParserException;
 
 import com.google.common.base.Charsets;
@@ -27,7 +28,7 @@ public class YamlParserTest {
     test("case7.yaml");
   }
 
-  @Test(expected = ParserException.class)
+  @Test(expected = DuplicateKeyException.class)
   public void testcase2() throws Exception {
     testInvalid("case2.yaml");
   }

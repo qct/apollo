@@ -4,7 +4,8 @@ import com.ctrip.framework.apollo.portal.component.config.PortalConfig;
 import com.ctrip.framework.apollo.portal.entity.bo.Email;
 import com.ctrip.framework.apollo.tracer.Tracer;
 
-import org.apache.commons.lang.time.DateUtils;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -91,7 +92,8 @@ public class CtripEmailRequestBuilder {
   private Calendar calExpiredTime() {
 
     Calendar calendar = Calendar.getInstance();
-    calendar.setTime(DateUtils.addHours(new Date(), portalConfig.survivalDuration()));
+    LocalDateTime localDateTime = LocalDateTime.now().plusHours(portalConfig.survivalDuration());
+    calendar.setTime(Date.from(localDateTime.atZone(ZoneId.systemDefault()).toInstant()));
 
     return calendar;
   }

@@ -1,6 +1,8 @@
 spring:
   application:
     name: apollo-configservice
+  main:
+    allow-bean-definition-overriding: true
 
 server:
   port: ${port:8080}

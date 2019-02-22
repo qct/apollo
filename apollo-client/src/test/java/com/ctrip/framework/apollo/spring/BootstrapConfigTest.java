@@ -28,8 +28,9 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.util.List;
 
-import static org.mockito.Matchers.anyString;
-import static org.mockito.Matchers.eq;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -72,8 +73,8 @@ public class BootstrapConfigTest {
 
       when(mockedConfig.getPropertyNames()).thenReturn(Sets.newHashSet(TEST_BEAN_CONDITIONAL_ON_KEY, someProperty));
 
-      when(mockedConfig.getProperty(eq(TEST_BEAN_CONDITIONAL_ON_KEY), anyString())).thenReturn(Boolean.TRUE.toString());
-      when(mockedConfig.getProperty(eq(someProperty), anyString())).thenReturn(someValue);
+      when(mockedConfig.getProperty(eq(TEST_BEAN_CONDITIONAL_ON_KEY), any())).thenReturn(Boolean.TRUE.toString());
+      when(mockedConfig.getProperty(eq(someProperty), any())).thenReturn(someValue);
 
       mockConfig(ConfigConsts.NAMESPACE_APPLICATION, mockedConfig);
     }
@@ -195,7 +196,7 @@ public class BootstrapConfigTest {
       Config config = mock(Config.class);
 
       when(config.getPropertyNames()).thenReturn(Sets.newHashSet(TEST_BEAN_CONDITIONAL_ON_KEY));
-      when(config.getProperty(eq(TEST_BEAN_CONDITIONAL_ON_KEY), anyString())).thenReturn(Boolean.FALSE.toString());
+      when(config.getProperty(eq(TEST_BEAN_CONDITIONAL_ON_KEY), any())).thenReturn(Boolean.FALSE.toString());
 
       mockConfig(ConfigConsts.NAMESPACE_APPLICATION, config);
     }

@@ -22,7 +22,9 @@ import com.ctrip.framework.apollo.portal.service.RolePermissionService;
 import com.ctrip.framework.apollo.portal.spi.UserService;
 import com.ctrip.framework.apollo.portal.util.RoleUtils;
 
-import org.apache.commons.lang.time.FastDateFormat;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.CollectionUtils;
 
@@ -63,7 +65,7 @@ public abstract class ConfigPublishEmailBuilder {
   //set config's value max length to protect email.
   protected static final int VALUE_MAX_LENGTH = 100;
 
-  protected FastDateFormat dateFormat = FastDateFormat.getInstance("yyyy-MM-dd HH:mm:ss");
+  private DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
 
   @Autowired
@@ -146,8 +148,10 @@ public abstract class ConfigPublishEmailBuilder {
             renderResult.replaceAll(EMAIL_CONTENT_FIELD_RELEASE_HISTORY_ID, String.valueOf(releaseHistory.getId()));
     renderResult = renderResult.replaceAll(EMAIL_CONTENT_FIELD_RELEASE_COMMENT, Matcher.quoteReplacement(releaseHistory.getReleaseComment()));
     renderResult = renderResult.replaceAll(EMAIL_CONTENT_FIELD_APOLLO_SERVER_ADDRESS, getApolloPortalAddress());
+    LocalDateTime localDateTime = releaseHistory.getReleaseTime().toInstant().atZone(ZoneId.systemDefault())
+        .toLocalDateTime();
     return renderResult
-            .replaceAll(EMAIL_CONTENT_FIELD_RELEASE_TIME, dateFormat.format(releaseHistory.getReleaseTime()));
+            .replaceAll(EMAIL_CONTENT_FIELD_RELEASE_TIME, localDateTime.format(dateFormat));
   }
 
   private String renderDiffModule(String bodyTemplate, Env env, ReleaseHistoryBO releaseHistory) {

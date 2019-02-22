@@ -2,8 +2,8 @@ package com.ctrip.framework.apollo.spring;
 
 import static java.util.Arrays.asList;
 import static org.junit.Assert.assertEquals;
-import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.anySetOf;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.isNull;
 import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
@@ -72,7 +72,7 @@ public class XMLConfigAnnotationTest extends AbstractSpringIntegrationTest {
     doAnswer(new Answer() {
       @Override
       public Object answer(InvocationOnMock invocation) throws Throwable {
-        applicationListeners.add(invocation.getArgumentAt(0, ConfigChangeListener.class));
+        applicationListeners.add(invocation.getArgument(0));
 
         return Void.class;
       }
@@ -81,7 +81,7 @@ public class XMLConfigAnnotationTest extends AbstractSpringIntegrationTest {
     doAnswer(new Answer() {
       @Override
       public Object answer(InvocationOnMock invocation) throws Throwable {
-        fxApolloListeners.add(invocation.getArgumentAt(0, ConfigChangeListener.class));
+        fxApolloListeners.add(invocation.getArgument(0));
 
         return Void.class;
       }
@@ -147,10 +147,10 @@ public class XMLConfigAnnotationTest extends AbstractSpringIntegrationTest {
     final ArgumentCaptor<Set> fxApolloConfigInterestedKeys = ArgumentCaptor.forClass(Set.class);
 
     verify(applicationConfig, times(2))
-        .addChangeListener(any(ConfigChangeListener.class), applicationConfigInterestedKeys.capture(), anySetOf(String.class));
+        .addChangeListener(any(ConfigChangeListener.class), applicationConfigInterestedKeys.capture(), isNull());
 
     verify(fxApolloConfig, times(1))
-        .addChangeListener(any(ConfigChangeListener.class), fxApolloConfigInterestedKeys.capture(), anySetOf(String.class));
+        .addChangeListener(any(ConfigChangeListener.class), fxApolloConfigInterestedKeys.capture(), isNull());
 
     assertEquals(2, applicationConfigInterestedKeys.getAllValues().size());
 

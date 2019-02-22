@@ -22,7 +22,8 @@ import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import org.apache.commons.lang.time.FastDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -46,7 +47,7 @@ import java.util.Set;
 @Service
 public class ReleaseService {
 
-  private static final FastDateFormat TIMESTAMP_FORMAT = FastDateFormat.getInstance("yyyyMMddHHmmss");
+  private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
   private static final Gson gson = new Gson();
   private static final Set<Integer> BRANCH_RELEASE_OPERATIONS = Sets
       .newHashSet(ReleaseOperation.GRAY_RELEASE, ReleaseOperation.MASTER_NORMAL_RELEASE_MERGE_TO_GRAY,
@@ -499,7 +500,7 @@ public class ReleaseService {
     //compare
     if (!childNamespaceNewConfiguration.equals(childReleaseConfiguration)) {
       branchRelease(parentNamespace, childNamespace,
-          TIMESTAMP_FORMAT.format(new Date()) + "-master-rollback-merge-to-gray", "",
+          LocalDateTime.now().format(DATE_TIME_FORMATTER) + "-master-rollback-merge-to-gray", "",
           childNamespaceNewConfiguration, parentNamespaceNewLatestRelease.getId(), operator,
           ReleaseOperation.MATER_ROLLBACK_MERGE_TO_GRAY, false, branchReleaseKeys);
     }

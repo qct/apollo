@@ -3,7 +3,7 @@ package com.ctrip.framework.apollo.spring.config;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
-import static org.mockito.Matchers.any;
+
 import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
@@ -19,9 +19,10 @@ import java.util.Set;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.ArgumentMatchers;
 import org.mockito.Mock;
 import org.mockito.invocation.InvocationOnMock;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.junit.MockitoJUnitRunner;
 import org.mockito.stubbing.Answer;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -83,11 +84,11 @@ public class ConfigPropertySourceTest {
     doAnswer(new Answer() {
       @Override
       public Object answer(InvocationOnMock invocation) throws Throwable {
-        listeners.add(invocation.getArgumentAt(0, ConfigChangeListener.class));
+        listeners.add(invocation.getArgument(0));
 
         return Void.class;
       }
-    }).when(someConfig).addChangeListener(any(ConfigChangeListener.class));
+    }).when(someConfig).addChangeListener(ArgumentMatchers.any(ConfigChangeListener.class));
 
     configPropertySource.addChangeListener(someListener);
     configPropertySource.addChangeListener(anotherListener);

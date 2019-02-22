@@ -5,16 +5,16 @@ import com.google.common.base.Joiner;
 import com.ctrip.framework.apollo.core.utils.ByteUtil;
 import com.ctrip.framework.apollo.core.utils.MachineUtil;
 
-import org.apache.commons.lang.time.FastDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 import java.security.SecureRandom;
-import java.util.Date;
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class UniqueKeyGenerator {
 
-  private static final FastDateFormat TIMESTAMP_FORMAT = FastDateFormat.getInstance("yyyyMMddHHmmss");
+  private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
   private static final AtomicInteger counter = new AtomicInteger(new SecureRandom().nextInt());
   private static final Joiner KEY_JOINER = Joiner.on("-");
 
@@ -25,7 +25,7 @@ public class UniqueKeyGenerator {
         ByteUtil.toHexString(toByteArray(Objects.hash(args), MachineUtil.getMachineIdentifier(),
                                          counter.incrementAndGet()));
 
-    return KEY_JOINER.join(TIMESTAMP_FORMAT.format(new Date()), hexIdString);
+    return KEY_JOINER.join(LocalDateTime.now().format(DATE_TIME_FORMATTER), hexIdString);
 
   }
 

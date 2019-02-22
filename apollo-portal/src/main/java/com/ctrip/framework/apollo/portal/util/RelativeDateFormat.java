@@ -1,13 +1,15 @@
 package com.ctrip.framework.apollo.portal.util;
 
-import org.apache.commons.lang.time.FastDateFormat;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 
 import java.util.Calendar;
 import java.util.Date;
 
 
 public class RelativeDateFormat {
-  private static final FastDateFormat TIMESTAMP_FORMAT = FastDateFormat.getInstance("yyyy-MM-dd");
+  private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd");
   private static final long ONE_MINUTE = 60000L;
   private static final long ONE_HOUR = 3600000L;
   private static final long ONE_DAY = 86400000L;
@@ -54,7 +56,8 @@ public class RelativeDateFormat {
     if (months <= 3) {
       return (months <= 0 ? 1 : months) + ONE_MONTH_AGO;
     } else {
-      return TIMESTAMP_FORMAT.format(date);
+      LocalDateTime localDateTime = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
+      return localDateTime.format(DATE_TIME_FORMATTER);
     }
   }
 

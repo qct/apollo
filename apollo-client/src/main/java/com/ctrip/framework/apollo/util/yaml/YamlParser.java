@@ -10,8 +10,10 @@ import java.util.Set;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.yaml.snakeyaml.LoaderOptions;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.constructor.Constructor;
+import org.yaml.snakeyaml.constructor.SafeConstructor.ConstructYamlBinary;
 import org.yaml.snakeyaml.nodes.MappingNode;
 import org.yaml.snakeyaml.parser.ParserException;
 
@@ -42,9 +44,14 @@ public class YamlParser {
 
   /**
    * Create the {@link Yaml} instance to use.
+   * <p>The default implementation sets the "allowDuplicateKeys" flag to {@code false},
+   * enabling built-in duplicate key handling in SnakeYAML 1.18+.
+   * @see LoaderOptions#setAllowDuplicateKeys(boolean)
    */
-  private Yaml createYaml() {
-    return new Yaml(new StrictMapAppenderConstructor());
+  protected Yaml createYaml() {
+    LoaderOptions options = new LoaderOptions();
+    options.setAllowDuplicateKeys(false);
+    return new Yaml(options);
   }
 
   private boolean process(MatchCallback callback, Yaml yaml, String content) {
@@ -157,25 +164,6 @@ public class YamlParser {
       } catch (IllegalStateException ex) {
         throw new ParserException("while parsing MappingNode", node.getStartMark(), ex.getMessage(), node.getEndMark());
       }
-    }
-
-    @Override
-    protected Map<Object, Object> createDefaultMap() {
-      final Map<Object, Object> delegate = super.createDefaultMap();
-      return new AbstractMap<Object, Object>() {
-        @Override
-        public Object put(Object key, Object value) {
-          if (delegate.containsKey(key)) {
-            throw new IllegalStateException("Duplicate key: " + key);
-          }
-          return delegate.put(key, value);
-        }
-
-        @Override
-        public Set<Entry<Object, Object>> entrySet() {
-          return delegate.entrySet();
-        }
-      };
     }
   }
 

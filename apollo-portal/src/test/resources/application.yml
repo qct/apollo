@@ -4,6 +4,8 @@ server:
 spring:
   application:
     name: apollo-portal
+  main:
+    allow-bean-definition-overriding: true
 
 logging:
   level:
@@ -17,4 +19,4 @@ apollo:
 management:
   health:
     status:
-      order: DOWN, OUT_OF_SERVICE, UNKNOWN, UP 
+      order: DOWN, OUT_OF_SERVICE, UNKNOWN, UP

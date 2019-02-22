@@ -1,6 +1,7 @@
 package com.ctrip.framework.apollo;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
 import com.ctrip.framework.apollo.enums.ConfigSourceType;
 import java.util.Set;
@@ -42,7 +43,7 @@ public class ConfigServiceTest {
     Config config = ConfigService.getAppConfig();
 
     assertEquals(someNamespace + ":" + someKey, config.getProperty(someKey, null));
-    assertEquals(null, config.getProperty("unknown", null));
+    assertNull(config.getProperty("unknown", null));
   }
 
   @Test
