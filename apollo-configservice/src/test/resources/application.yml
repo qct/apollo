@@ -10,7 +10,4 @@ server:
 logging:
   level:
     org.springframework.cloud: 'DEBUG'
-  file: /opt/logs/${ctrip.appid}/apollo-configservice.log
-
-ctrip:
-  appid: 100003171
+  file: /opt/logs/apollo-configservice.log
