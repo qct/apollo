@@ -39,7 +39,6 @@
 			<outputDirectory>/config</outputDirectory>
 			<includes>
 				<include>application-github.properties</include>
-				<include>apollo-env.properties</include>
 			</includes>
 		</fileSet>
 		<!--artifact -->
