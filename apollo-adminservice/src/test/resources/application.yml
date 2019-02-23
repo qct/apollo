@@ -8,6 +8,4 @@ server:
   port: ${port:8090}
   
 logging:
-  level:
-    org.springframework.cloud: 'DEBUG'
   file: /opt/logs/apollo/apollo-adminservice.log
