@@ -8,23 +8,36 @@ notification:
     on_success: always
     on_failure: always
 
-before_script:
-  - echo "MAVEN_OPTS='-Xms1024m -Xmx3072m -XX:MetaspaceSize=128m -XX:MaxMetaspaceSize=384m'" > ~/.mavenrc
-  
-before_install:
-  - pip install --user codecov
-
-after_success:
-  - mvn clean test jacoco:report coveralls:report
-  - codecov
+services:
+  - docker
 
 branches:
   only:
     - master
-    
+
+before_script:
+  - echo "MAVEN_OPTS='-Xms1024m -Xmx3072m -XX:MetaspaceSize=128m -XX:MaxMetaspaceSize=384m'" > ~/.mavenrc
+
+before_install:
+  - docker version
+  - docker info
+  - pip install --user codecov
+
+script:
+
+after_success:
+  - mvn clean test jacoco:report coveralls:report
+  - mvn deploy
+#  - bash < (curl -s https://codecov.io/bash)
+
 env:
   global:
+    # COVERITY_SCAN_TOKEN
     - secure: "fl/sy57fndLzzAT4FtHtxWMwwTqxfjlPVWoTaeP94lqPoAG7f5D0213tFgmPcmpTRV3ygqDP1gIQqdPvj/lTsLv3+zJKzuHZXpbDLPX6flnbSYzlZtyVb619B0HJFuSiYtOADXq1kBybollzxkdEJmmhgVGOmf4LIlmXPMA2QfBn1zVghHJdE9efrKialZVzpLcVbGJK5NeTXD024QatugAw+08PcAB43Z2kKlFH751IWFAZmhygBRkgLtkwPIybD0L8qO+DuSg6lZPy65UhLa2BrL1JR8WqEvdFS1/y4uyamKkC5U/RcxGcMCVeeSpLv+IbFQv9xce0J3BINVJuzZhUnddVq2j7XT2A2zjczdRp8N/Pae6XItCd85wyfOdKBZZdBNLPXGoDGaDfVBvRj8Ppwqkynahg2639RJhFfZWOtoSxsiLFvIFuhuUTCKXbnvnbNpOQqIhR/jpqX5WMU/okUcrCtgCXdjuxPEutD1WZjm5Av5jI2JOyMB007Yf3Tz/5RuHxugDo8J4qIARJTydAQw8Mf6tZEbGxb6NRmm9+xhm1cr0s8A6UC881jfplTINctjQ07q5DbSHc5r1QuFhP/9azp80NgSJ9QYHsVYRc5ZXB9yeKkKSnc+CIkHzHksFBolq2wO+nldecyD8z6tcQtuQ9ITxJwHo8DavjYZ4="
+    # DOCKER_USERNAME
+    - secure: "cDJhXKitiQxrT6kGJ54+6cs9d6aXUfuDZU/u5xvNqSUpUNss6j7Y7YXZOLiez/yhTsWLFhFO2MIJfd1VgPzhwXXciIWCPntn7Zc7mat4+YeKxE785Vn2fm9Qud4FhtX588uhtU1Y5Zv/u5G5olBa40I3SURDAG1oPcD1ZRgh3qR69jikXFje56crDs3OqULFE+cI4Eap7xZJVE+mbQO3YnJEkfz1JFqWjq9el9dW6cki882fKm7dLJpjldqtiQDguKNe4OJwmMVSATLtOJP5KDRecnvPs9t/LGBUynXD0BCLisW7Y+GYfgJGoiJ3E8hYXZVo6A6XlvamowB2v5+gWWjKVkRSbeQz7r8lXp4o9fSta9plUMmGBjsHmjfWJYE6+zlWUfDYQRvP9l/wBsv0Ll1hiir591WBtgct2TPjt7AykQkaocaTg/+Z5rf0wMWskmkE0gTnsvuIhQJQ6DkV20PK/C0LE8YKtfC62fJSMpyjB14mScFs0ytn/eQeaD2hnSDJ+H40NTA2K2zj+5fq2b16Bei75rCJYFK0H/2Bxuk+ts/NX7p1ouzIX3WtDg4sxWZSF9Mg7TgnxmfsoYlYcDGSA7TBCrU8PdE6/2xChaX2IgUkRTCEhysix6/IZC5JNxZww8/RMGnMcK+ITJfx3+T2M0OP38kz0eHf6+nFZXU="
+    # DOCKER_PASSWORD
+    - secure: "MgzFdAA+Dzsb9+/1Ngi+AAXFw3I4/dfvoS84dHAaJu5SdgQntJPMvRFj09xMbUo0kGCKyJkXuXhwroNPiqgaokXXaDUebPQhZ+3uV9Ty7aEp+cixZA8Lztmb3w8vuQpYu7UqM57GbbgWDmhRuuVyaCxZnGBZqdR6kruTWhLiWUWJjX6FTFHSCOCdxGMrYsmaZiaNxmn++SVfuUqHkXeSml9RLhD6AfTrby2+pw6xJZNXpxgNjF/XyNPOH6/1x6xjQOZm0Fx/10j2Isubj0hmF2TqwjCtQ8dR2AMNR13hqFV4cT7k8wSzoR6FpTu8frrAtuCcEHcqzCDtWqWfYliWUXfxuqXNDqXuDeizZBE+HPVzuJhE/O9tsvGQ1BsHrwTolNhpSE2TvrYYU9k7DswRAcVRk6CtY9PupN/ISPyvgrxLUgN1UMpE2NnhnBRKKILw8UVMNh6wpF/fF6FNGskMSrdftjfvgI/OPJNO8HVUf5E7CRdGM7mrnMOTIu1UwU6vsgB14ayI8RwB6uUsdvEyFI+XS4hqPecwmc2OVV1P5onAIVNZt2V7dUALASm4HLBDUXE0UWHNFeClkzAX80Ens1eP/z8mGrvpeL9RQlJQJaGMeHTnWYzx5l61iAp4yVIZS/2cjY3dk6L3dOL/xpeP2QPFxcs7QtkoF/1Igsd04+A="
     - "MAVEN_OPTS=-Xms1024m -Xmx3072m -XX:MetaspaceSize=128m -XX:MaxMetaspaceSize=384m"
 
 addons:
