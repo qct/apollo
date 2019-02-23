@@ -2,14 +2,14 @@
 
 # Apollo - A reliable configuration management system
 
-[![Build Status](https://travis-ci.org/ctripcorp/apollo.svg?branch=master)](https://travis-ci.org/ctripcorp/apollo)
+[![Build Status](https://travis-ci.org/qct/apollo.svg?branch=master)](https://travis-ci.org/qct/apollo)
 [![GitHub release](https://img.shields.io/github/release/ctripcorp/apollo.svg)](https://github.com/ctripcorp/apollo/releases)
 [![Maven Central Repo](https://img.shields.io/maven-central/v/com.ctrip.framework.apollo/apollo.svg)](https://mvnrepository.com/artifact/com.ctrip.framework.apollo/apollo-client)
-[![Coverage Status](https://coveralls.io/repos/github/ctripcorp/apollo/badge.svg?branch=master)](https://coveralls.io/github/ctripcorp/apollo?branch=master)
+[![Coverage Status](https://coveralls.io/repos/github/qct/apollo/badge.svg?branch=master)](https://coveralls.io/github/qct/apollo?branch=master)
 <a href="https://scan.coverity.com/projects/qct-apollo">
   <img alt="Coverity Scan Build Status" src="https://img.shields.io/coverity/scan/17757.svg"/>
 </a>
-[![codecov.io](https://codecov.io/github/ctripcorp/apollo/coverage.svg?branch=master)](https://codecov.io/github/ctripcorp/apollo?branch=master)
+[![codecov](https://codecov.io/gh/qct/apollo/branch/master/graph/badge.svg)](https://codecov.io/gh/qct/apollo)
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 
 
