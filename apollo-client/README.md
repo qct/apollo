@@ -88,7 +88,7 @@ If you need this functionality, you could specify the cluster as follows:
 		<dependency>
 			<groupId>com.ctrip.framework.apollo</groupId>
 			<artifactId>apollo-client</artifactId>
-			<version>2.0.0.M1</version>
+			<version>2.0.0.M2</version>
 		</dependency>
 
 ## III. Client Usage
