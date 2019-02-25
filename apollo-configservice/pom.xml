@@ -42,7 +42,7 @@
 		<profile>
 			<id>docker</id>
 			<properties>
-				<dockerfile-maven-plugin.skip>false</dockerfile-maven-plugin.skip>
+				<dockerfile.skip>false</dockerfile.skip>
 			</properties>
 		</profile>
 	</profiles>

@@ -87,7 +87,7 @@
 		<!-- for travis usage -->
 		<dockerfile-maven-plugin.version>1.4.10</dockerfile-maven-plugin.version>
 		<docker.image.prefix>qct222</docker.image.prefix>
-		<dockerfile-maven-plugin.skip>true</dockerfile-maven-plugin.skip>
+		<dockerfile.skip>true</dockerfile.skip>
 		<dockerfile.username>${env.DOCKER_USERNAME}</dockerfile.username>
 		<dockerfile.password>${env.DOCKER_PASSWORD}</dockerfile.password>
 		<jacoco-maven-plugin.version>0.8.3</jacoco-maven-plugin.version>
@@ -225,11 +225,6 @@
 						</dependency>
 					</dependencies>
 				</plugin>
-				<plugin>
-					<groupId>com.spotify</groupId>
-					<artifactId>dockerfile-maven-plugin</artifactId>
-					<version>${dockerfile-maven-plugin.version}</version>
-				</plugin>
 			</plugins>
 		</pluginManagement>
 		<plugins>
@@ -279,7 +274,6 @@
 					</execution>
 				</executions>
 				<configuration>
-					<skip>${dockerfile-maven-plugin.skip}</skip>
 					<username>${dockerfile.username}</username>
 					<password>${dockerfile.password}</password>
 					<repository>${docker.image.prefix}/${project.artifactId}</repository>

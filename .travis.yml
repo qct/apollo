@@ -24,11 +24,12 @@ before_install:
   - docker info
   - pip install --user codecov
 
-script:
+script: ./mvnw clean package dockerfile:build dockerfile:push -Dmaven.test.skip -P docker
 
 after_success:
-  - ./mvnw clean test jacoco:report coveralls:report
-  - ./mvnw dockerfile:build dockerfile:push -P docker
+  - docker images
+#  - ./mvnw clean test jacoco:report coveralls:report
+#  - ./mvnw dockerfile:build dockerfile:push -P docker
 #  - bash < (curl -s https://codecov.io/bash)
 
 env:
@@ -41,15 +42,15 @@ env:
     - secure: "MgzFdAA+Dzsb9+/1Ngi+AAXFw3I4/dfvoS84dHAaJu5SdgQntJPMvRFj09xMbUo0kGCKyJkXuXhwroNPiqgaokXXaDUebPQhZ+3uV9Ty7aEp+cixZA8Lztmb3w8vuQpYu7UqM57GbbgWDmhRuuVyaCxZnGBZqdR6kruTWhLiWUWJjX6FTFHSCOCdxGMrYsmaZiaNxmn++SVfuUqHkXeSml9RLhD6AfTrby2+pw6xJZNXpxgNjF/XyNPOH6/1x6xjQOZm0Fx/10j2Isubj0hmF2TqwjCtQ8dR2AMNR13hqFV4cT7k8wSzoR6FpTu8frrAtuCcEHcqzCDtWqWfYliWUXfxuqXNDqXuDeizZBE+HPVzuJhE/O9tsvGQ1BsHrwTolNhpSE2TvrYYU9k7DswRAcVRk6CtY9PupN/ISPyvgrxLUgN1UMpE2NnhnBRKKILw8UVMNh6wpF/fF6FNGskMSrdftjfvgI/OPJNO8HVUf5E7CRdGM7mrnMOTIu1UwU6vsgB14ayI8RwB6uUsdvEyFI+XS4hqPecwmc2OVV1P5onAIVNZt2V7dUALASm4HLBDUXE0UWHNFeClkzAX80Ens1eP/z8mGrvpeL9RQlJQJaGMeHTnWYzx5l61iAp4yVIZS/2cjY3dk6L3dOL/xpeP2QPFxcs7QtkoF/1Igsd04+A="
     - "MAVEN_OPTS=-Xms1024m -Xmx3072m -XX:MetaspaceSize=128m -XX:MaxMetaspaceSize=384m"
 
-addons:
-  coverity_scan:
-    project:
-      name: "qct/apollo"
-      description: "Build submitted via Travis CI"
-    notification_email: tango.qct@gmail.com
-    build_command_prepend: "./mvnw clean"
-    build_command: "./mvnw -DskipTests=true compile"
-    branch_pattern: master
+#addons:
+#  coverity_scan:
+#    project:
+#      name: "qct/apollo"
+#      description: "Build submitted via Travis CI"
+#    notification_email: tango.qct@gmail.com
+#    build_command_prepend: "./mvnw clean"
+#    build_command: "./mvnw -DskipTests=true compile"
+#    branch_pattern: master
 
 cache:
   directories:

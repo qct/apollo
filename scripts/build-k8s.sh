@@ -11,4 +11,4 @@ cd $(dirname "${BASH_SOURCE}")/..
 #echo "==== starting to build portal ===="
 #mvn clean package dockerfile:build -DskipTests -Dassembly.skipAssembly=true -Dmaven.gitcommitid.skip=true -Dapollo_profile=auth -P k8s -pl apollo-portal -am
 
-mvn clean package dockerfile:build -DskipTests -Dassembly.skipAssembly=true -Dmaven.gitcommitid.skip=true -Dapollo_profile=auth -P k8s -pl '!apollo-assembly,!apollo-demo,!apollo-mockserver'
+mvn clean package dockerfile:build -DskipTests -Dapollo_profile=auth -P docker -pl '!apollo-mockserver';
