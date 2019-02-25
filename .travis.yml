@@ -24,12 +24,10 @@ before_install:
   - docker info
   - pip install --user codecov
 
-script: ./mvnw clean package dockerfile:build dockerfile:push -Dmaven.test.skip -P docker
-
 after_success:
   - docker images
-#  - ./mvnw clean test jacoco:report coveralls:report
-#  - ./mvnw dockerfile:build dockerfile:push -P docker
+  - ./mvnw clean test jacoco:report coveralls:report
+  - ./mvnw dockerfile:build dockerfile:push -P docker
 #  - bash < (curl -s https://codecov.io/bash)
 
 env:
