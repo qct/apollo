@@ -87,7 +87,7 @@
 		<!-- for travis usage -->
 		<github.global.server>github</github.global.server>
 		<github.global.oauth2Token>${env.GITHUB_OAUTH_TOKEN}</github.global.oauth2Token>
-		<dockerfile-maven-plugin.version>1.4.0</dockerfile-maven-plugin.version>
+		<dockerfile-maven-plugin.version>1.4.10</dockerfile-maven-plugin.version>
 		<docker.image.prefix>qct222</docker.image.prefix>
 		<dockerfile-maven-plugin.skip>true</dockerfile-maven-plugin.skip>
 		<dockerfile.username>${env.DOCKER_USERNAME}</dockerfile.username>
