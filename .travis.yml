@@ -27,7 +27,7 @@ script:
 
 after_success:
   - ./mvnw clean test jacoco:report coveralls:report
-  - ./mvnw deploy -P docker
+  - ./mvnw dockerfile:build dockerfile:push -P docker
 #  - bash < (curl -s https://codecov.io/bash)
 
 env:
