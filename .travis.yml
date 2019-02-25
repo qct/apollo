@@ -25,10 +25,9 @@ before_install:
   - pip install --user codecov
 
 after_success:
-  - docker images
-  - ./mvnw verify
-  - bash < (curl -s https://codecov.io/bash)
+  - bash <(curl -s https://codecov.io/bash)
   - ./mvnw dockerfile:build dockerfile:push -P docker
+  - docker images
 
 env:
   global:
