@@ -26,9 +26,9 @@ before_install:
 
 after_success:
   - docker images
-  - ./mvnw clean test jacoco:report coveralls:report
+  - ./mvnw verify
+  - bash < (curl -s https://codecov.io/bash)
   - ./mvnw dockerfile:build dockerfile:push -P docker
-#  - bash < (curl -s https://codecov.io/bash)
 
 env:
   global:
