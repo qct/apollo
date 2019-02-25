@@ -10,9 +10,6 @@
 	<modelVersion>4.0.0</modelVersion>
 	<artifactId>apollo-portal</artifactId>
 	<name>Apollo Portal</name>
-	<properties>
-		<github.path>${project.artifactId}</github.path>
-	</properties>
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.security</groupId>
@@ -42,27 +39,6 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
-				<configuration>
-					<executable>true</executable>
-				</configuration>
-			</plugin>
-			<plugin>
-				<artifactId>maven-assembly-plugin</artifactId>
-				<executions>
-					<execution>
-						<phase>package</phase>
-						<goals>
-							<goal>single</goal>
-						</goals>
-						<configuration>
-							<finalName>${project.artifactId}-${project.version}-${package.environment}</finalName>
-							<appendAssemblyId>false</appendAssemblyId>
-							<descriptors>
-								<descriptor>src/assembly/assembly-descriptor.xml</descriptor>
-							</descriptors>
-						</configuration>
-					</execution>
-				</executions>
 			</plugin>
 		</plugins>
 	</build>
@@ -72,46 +48,6 @@
 			<properties>
 				<dockerfile-maven-plugin.skip>false</dockerfile-maven-plugin.skip>
 			</properties>
-			<build>
-				<resources>
-					<resource>
-						<directory>src/main/resources</directory>
-						<filtering>true</filtering>
-						<includes>
-							<include>**/*.yml</include>
-							<include>**/*.yaml</include>
-							<include>**/*.properties</include>
-							<include>**/*.xml</include>
-						</includes>
-						<excludes>
-							<exclude>application-ctrip.yml</exclude>
-						</excludes>
-					</resource>
-					<resource>
-						<directory>src/main/resources</directory>
-						<filtering>false</filtering>
-						<excludes>
-							<exclude>**/*.yml</exclude>
-							<exclude>**/*.yaml</exclude>
-							<exclude>**/*.properties</exclude>
-							<exclude>**/*.xml</exclude>
-						</excludes>
-					</resource>
-					<resource>
-						<directory>src/main/config</directory>
-						<excludes>
-							<exclude>*</exclude>
-						</excludes>
-					</resource>
-				</resources>
-				<plugins>
-					<plugin>
-						<groupId>org.springframework.boot</groupId>
-						<artifactId>spring-boot-maven-plugin</artifactId>
-						<configuration combine.self="override"/>
-					</plugin>
-				</plugins>
-			</build>
 		</profile>
 	</profiles>
 </project>

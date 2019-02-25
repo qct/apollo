@@ -16,7 +16,7 @@
 	<name>Apollo</name>
 	<packaging>pom</packaging>
 	<description>Ctrip Configuration Center</description>
-	<url>https://github.com/ctripcorp/apollo</url>
+	<url>https://github.com/qct/apollo</url>
 
 	<organization>
 		<name>Ctrip, Inc.</name>
@@ -31,19 +31,19 @@
 	</licenses>
 
 	<scm>
-		<url>https://github.com/ctripcorp/apollo</url>
-		<connection>scm:git:git://github.com/ctripcorp/apollo.git</connection>
-		<developerConnection>scm:git:ssh://git@github.com/ctripcorp/apollo.git</developerConnection>
+		<url>https://github.com/qct/apollo</url>
+		<connection>scm:git:git://github.com/qct/apollo.git</connection>
+		<developerConnection>scm:git:ssh://git@github.com/qct/apollo.git</developerConnection>
 	</scm>
 
 	<ciManagement>
 		<system>Travis CI</system>
-		<url>https://travis-ci.org/ctripcorp/apollo</url>
+		<url>https://travis-ci.org/qct/apollo</url>
 	</ciManagement>
 
 	<issueManagement>
 		<system>github</system>
-		<url>https://github.com/ctripcorp/apollo/issues</url>
+		<url>https://github.com/qct/apollo/issues</url>
 	</issueManagement>
 
 	<developers>
@@ -85,13 +85,14 @@
 		<!-- Plugins Version -->
 		<maven-gpg-plugin.version>1.6</maven-gpg-plugin.version>
 		<!-- for travis usage -->
-		<github.global.server>github</github.global.server>
-		<github.global.oauth2Token>${env.GITHUB_OAUTH_TOKEN}</github.global.oauth2Token>
 		<dockerfile-maven-plugin.version>1.4.10</dockerfile-maven-plugin.version>
 		<docker.image.prefix>qct222</docker.image.prefix>
 		<dockerfile-maven-plugin.skip>true</dockerfile-maven-plugin.skip>
 		<dockerfile.username>${env.DOCKER_USERNAME}</dockerfile.username>
 		<dockerfile.password>${env.DOCKER_PASSWORD}</dockerfile.password>
+		<jacoco-maven-plugin.version>0.8.3</jacoco-maven-plugin.version>
+		<guava.version>19.0</guava.version>
+		<gson.version>2.8.0</gson.version>
 	</properties>
 
 	<modules>
@@ -157,19 +158,14 @@
 			</dependency>
 			<!--third party -->
 			<dependency>
-				<groupId>org.slf4j</groupId>
-				<artifactId>slf4j-api</artifactId>
-				<version>1.7.21</version>
-			</dependency>
-			<dependency>
 				<groupId>com.google.guava</groupId>
 				<artifactId>guava</artifactId>
-				<version>19.0</version>
+				<version>${guava.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.google.code.gson</groupId>
 				<artifactId>gson</artifactId>
-				<version>2.8.0</version>
+				<version>${gson.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>mysql</groupId>
@@ -330,27 +326,9 @@
 			<build>
 				<plugins>
 					<plugin>
-						<groupId>com.github.github</groupId>
-						<artifactId>site-maven-plugin</artifactId>
-						<version>0.12</version>
-						<configuration>
-							<message>Site for ${project.artifactId}, ${project.version}</message>
-							<path>${github.path}</path>
-							<merge>true</merge>
-						</configuration>
-						<executions>
-							<execution>
-								<goals>
-									<goal>site</goal>
-								</goals>
-								<phase>site</phase>
-							</execution>
-						</executions>
-					</plugin>
-					<plugin>
 						<groupId>org.jacoco</groupId>
 						<artifactId>jacoco-maven-plugin</artifactId>
-						<version>0.7.6.201602180812</version>
+						<version>${jacoco-maven-plugin.version}</version>
 						<executions>
 							<execution>
 								<id>prepare-agent</id>
@@ -400,7 +378,6 @@
 					<plugin>
 						<groupId>org.flywaydb</groupId>
 						<artifactId>flyway-maven-plugin</artifactId>
-						<version>5.2.4</version>
 						<dependencies>
 							<dependency>
 								<groupId>mysql</groupId>
@@ -423,7 +400,6 @@
 					<plugin>
 						<groupId>org.flywaydb</groupId>
 						<artifactId>flyway-maven-plugin</artifactId>
-						<version>5.2.4</version>
 						<dependencies>
 							<dependency>
 								<groupId>mysql</groupId>

@@ -12,25 +12,6 @@
   <artifactId>apollo-mockserver</artifactId>
   <name>Apollo Mock Server</name>
 
-  <properties>
-    <github.path>${project.artifactId}</github.path>
-  </properties>
-
-  <dependencyManagement>
-    <dependencies>
-      <dependency>
-        <groupId>com.squareup.okhttp3</groupId>
-        <artifactId>mockwebserver</artifactId>
-        <version>3.11.0</version>
-      </dependency>
-      <dependency>
-        <groupId>com.squareup.okhttp3</groupId>
-        <artifactId>okhttp</artifactId>
-        <version>3.11.0</version>
-      </dependency>
-    </dependencies>
-  </dependencyManagement>
-
   <dependencies>
     <dependency>
       <groupId>com.ctrip.framework.apollo</groupId>
@@ -39,15 +20,12 @@
     <dependency>
       <groupId>com.squareup.okhttp3</groupId>
       <artifactId>mockwebserver</artifactId>
+      <version>3.11.0</version>
     </dependency>
     <dependency>
       <groupId>com.squareup.okhttp3</groupId>
       <artifactId>okhttp</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-starter</artifactId>
-      <scope>test</scope>
+      <version>3.11.0</version>
     </dependency>
     <dependency>
       <groupId>org.springframework.boot</groupId>
@@ -55,5 +33,4 @@
       <scope>test</scope>
     </dependency>
   </dependencies>
-
 </project>
