@@ -40,7 +40,7 @@
 
 	<profiles>
 		<profile>
-			<id>k8s</id>
+			<id>docker</id>
 			<properties>
 				<dockerfile-maven-plugin.skip>false</dockerfile-maven-plugin.skip>
 			</properties>
