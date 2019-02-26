@@ -59,7 +59,7 @@ public class ConfigUtil {
       appId = ConfigConsts.NO_APPID_PLACEHOLDER;
       if (warnLogRateLimiter.tryAcquire()) {
         logger.warn(
-            "app.id is not set, please make sure it is set in classpath:/META-INF/app.properties, now apollo will only load public namespace configurations!");
+            "app.id is not set, please make sure it is set in classpath:/META-INF/apollo.properties, now apollo will only load public namespace configurations!");
       }
     }
     return appId;
@@ -283,7 +283,7 @@ public class ConfigUtil {
     // 1. Get from System Property
     String enableAutoUpdate = System.getProperty("apollo.autoUpdateInjectedSpringProperties");
     if (Strings.isNullOrEmpty(enableAutoUpdate)) {
-      // 2. Get from app.properties
+      // 2. Get from apollo.properties
       enableAutoUpdate = Foundation.app().getProperty("apollo.autoUpdateInjectedSpringProperties", null);
     }
     if (!Strings.isNullOrEmpty(enableAutoUpdate)) {

@@ -8,4 +8,4 @@ spring:
 server:
   port: 8090
 logging:
-  file: /opt/logs/apollo/apollo-adminservice.log
+  file: /var/log/apollo/apollo-adminservice.log

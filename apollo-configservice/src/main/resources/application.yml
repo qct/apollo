@@ -6,4 +6,4 @@ spring:
     username: root
     password: root
 logging:
-  file: /opt/logs/apollo/apollo-configservice.log
+  file: /var/log/apollo/apollo-configservice.log

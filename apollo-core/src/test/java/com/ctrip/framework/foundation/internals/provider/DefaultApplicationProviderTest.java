@@ -14,7 +14,7 @@ import com.ctrip.framework.foundation.internals.provider.DefaultApplicationProvi
 
 public class DefaultApplicationProviderTest {
   private DefaultApplicationProvider defaultApplicationProvider;
-  String PREDEFINED_APP_ID = "110402";
+  String PREDEFINED_APP_ID = "apollo-core-test-app-id";
 
   @Before
   public void setUp() throws Exception {

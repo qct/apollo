@@ -15,7 +15,7 @@ import com.ctrip.framework.foundation.spi.provider.Provider;
 
 public class DefaultApplicationProvider implements ApplicationProvider {
   private static final Logger logger = LoggerFactory.getLogger(DefaultApplicationProvider.class);
-  public static final String APP_PROPERTIES_CLASSPATH = "/META-INF/app.properties";
+  public static final String APP_PROPERTIES_CLASSPATH = "/META-INF/apollo.properties";
   private Properties m_appProperties = new Properties();
 
   private String m_appId;
@@ -86,7 +86,7 @@ public class DefaultApplicationProvider implements ApplicationProvider {
       return;
     }
 
-    // 2. Try to get app id from app.properties.
+    // 2. Try to get app id from apollo.properties.
     m_appId = m_appProperties.getProperty("app.id");
     if (!Utils.isBlank(m_appId)) {
       m_appId = m_appId.trim();

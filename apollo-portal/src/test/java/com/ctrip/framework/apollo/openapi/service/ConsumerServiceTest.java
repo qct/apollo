@@ -116,11 +116,11 @@ public class ConsumerServiceTest extends AbstractUnitTest {
 
   @Test
   public void testGenerateConsumerToken() throws Exception {
-    String someConsumerAppId = "100003171";
+    String someConsumerAppId = "apollo-config-service";
     Date generationTime = new GregorianCalendar(2016, Calendar.AUGUST, 9, 12, 10, 50).getTime();
     String tokenSalt = "apollo";
 
-    assertEquals("d0da35292dd5079eeb73cc3a5f7c0759afabd806", consumerService
+    assertEquals("accd87a74636688663f64dcdd509042b7627f6d8", consumerService
         .generateToken(someConsumerAppId, generationTime, tokenSalt));
   }
 

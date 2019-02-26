@@ -8,15 +8,8 @@ spring:
     allow-bean-definition-overriding: true
 
 logging:
-  level:
-    org.springframework.cloud: 'DEBUG'
-  file: /opt/logs/100003173/apollo-portal.log
+  file: /var/log/apollo/apollo-portal.log
   
 apollo:
   portal:
     envs: local
-
-management:
-  health:
-    status:
-      order: DOWN, OUT_OF_SERVICE, UNKNOWN, UP

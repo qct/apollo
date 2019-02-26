@@ -18,7 +18,7 @@ public class AppNamespaceRepositoryTest extends AbstractIntegrationTest{
   public void testFindByNameAndIsPublicTrue() throws Exception {
     AppNamespace appNamespace = repository.findByNameAndIsPublicTrue("fx.apollo.config");
 
-    assertEquals("100003171", appNamespace.getAppId());
+    assertEquals("apollo-config-service", appNamespace.getAppId());
   }
 
   @Test

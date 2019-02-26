@@ -47,9 +47,9 @@ public class AppNamespaceServiceTest extends AbstractIntegrationTest {
   @Sql(scripts = "/sql/cleanup.sql", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
   public void testFindPublicAppNamespaceByAppAndName() {
 
-    Assert.assertNotNull(appNamespaceService.findByAppIdAndName("100003173", "datasourcexml"));
+    Assert.assertNotNull(appNamespaceService.findByAppIdAndName("apollo-portal", "datasourcexml"));
 
-    Assert.assertNull(appNamespaceService.findByAppIdAndName("100003173", "TFF.song0711-02"));
+    Assert.assertNull(appNamespaceService.findByAppIdAndName("apollo-portal", "TFF.song0711-02"));
   }
 
 
@@ -135,7 +135,7 @@ public class AppNamespaceServiceTest extends AbstractIntegrationTest {
     AppNamespace appNamespace = assmbleBaseAppNamespace();
     appNamespace.setPublic(false);
     appNamespace.setName("datasource");
-    appNamespace.setAppId("100003173");
+    appNamespace.setAppId("apollo-portal");
 
     appNamespaceService.createAppNamespaceInLocal(appNamespace);
   }
@@ -165,7 +165,7 @@ public class AppNamespaceServiceTest extends AbstractIntegrationTest {
     AppNamespace appNamespace = assmbleBaseAppNamespace();
     appNamespace.setPublic(false);
     appNamespace.setName("SCC.song0711-03");
-    appNamespace.setAppId("100003173");
+    appNamespace.setAppId("apollo-portal");
     appNamespace.setFormat(ConfigFileFormat.Properties.getValue());
 
     appNamespaceService.createAppNamespaceInLocal(appNamespace);

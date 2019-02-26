@@ -17,12 +17,7 @@ server:
     use-relative-redirects: true
 
 logging:
-  file: /opt/logs/apollo/apollo-portal.log
-
-management:
-  health:
-    status:
-      order: DOWN, OUT_OF_SERVICE, UNKNOWN, UP
+  file: /var/log/apollo/apollo-portal.log
 
 apollo:
   config-service-url:

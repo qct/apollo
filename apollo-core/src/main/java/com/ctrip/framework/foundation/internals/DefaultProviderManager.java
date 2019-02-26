@@ -16,7 +16,7 @@ public class DefaultProviderManager implements ProviderManager {
   private Map<Class<? extends Provider>, Provider> m_providers = new LinkedHashMap<>();
 
   public DefaultProviderManager() {
-    // Load per-application configuration, like app id, from classpath://META-INF/app.properties
+    // Load per-application configuration, like app id, from classpath://META-INF/apollo.properties
     Provider applicationProvider = new DefaultApplicationProvider();
     applicationProvider.initialize();
     register(applicationProvider);
